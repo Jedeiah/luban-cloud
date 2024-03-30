@@ -1,0 +1,130 @@
+version: '3'
+services:
+  mysql: # 服务名称
+    image: mysql:8.0.18 # 或其它mysql版本
+    platform: linux/amd64 # todo mac需要
+    container_name: mysql8 # 容器名称
+    restart: always # 容器随docker启动自启
+    environment:
+      - MYSQL_ROOT_PASSWORD=jedeiah # root用户密码
+      - TZ=Asia/Shanghai # 设置容器时区 我这里通过下面挂载方式同步的宿主机时区和时间了,这里忽略
+      - LANG=C.UTF-8
+    volumes:
+      - ./mysql8/log:/var/log/mysql # 映射日志目录，宿主机:容器
+      - ./mysql8/data:/var/lib/mysql # 映射数据目录，宿主机:容器
+      - ./mysql8/conf.d:/etc/mysql/conf.d # 映射配置目录，宿主机:容器
+      - ./mysql8/initdb:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+    healthcheck: #健康检查
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "mysql" ]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: always
+    environment:
+      - TZ=Asia/Shanghai
+    ports:
+      - '6379:6379'
+    volumes:
+      - ./redis/data:/data
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./redis/logs:/logs
+    #配置文件启动
+    command: [ 'redis-server','/usr/local/etc/redis/redis.conf' ]
+
+  nacos:
+    image: nacos/nacos-server:v2.2.3
+    platform: linux/amd64 # todo mac需要
+    container_name: nacos
+    restart: always
+    volumes:
+      - ./nacos/logs:/home/nacos/logs
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://nacos:8848/nacos/v1/console/health/readiness" ]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      # JVM内存设置
+      - JVM_XMS=128m # JVM初始堆内存大小
+      - JVM_XMX=512m # JVM最大堆内存大小
+      # Nacos服务运行模式
+      - PREFER_HOST_MODE=ip:port:namespace # Nacos服务的主机名模式
+      - MODE=standalone # Nacos服务的运行模式
+      # 数据源配置
+      - SPRING_DATASOURCE_PLATFORM=mysql # 数据源平台类型
+      - MYSQL_SERVICE_HOST=mysql # MySQL服务的主机地址
+      - MYSQL_SERVICE_DB_NAME=nacos_config # MySQL数据库的名称
+      - MYSQL_SERVICE_PORT=3306 # MySQL服务的端口号
+      - MYSQL_SERVICE_USER=nacos # MySQL服务的用户名
+      - MYSQL_SERVICE_PASSWORD=nacosjedeiah # MySQL服务的密码
+      - MYSQL_SERVICE_DB_PARAM=characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true # MySQL服务的连接参数
+      # 认证配置
+      - NACOS_AUTH_ENABLE=true
+      - NACOS_AUTH_IDENTITY_KEY=jedeiah # 认证的标识键
+      - NACOS_AUTH_IDENTITY_VALUE=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbeyJqZWRlaWFoIjoiamVkZWlhaCJ9XSwiaWF0IjoxNzExNjQxOTQzLCJleHAiOjE3MTE2NDE3MTIsImF1ZCI6IiIsImlzcyI6ImplZGVpYWgiLCJzdWIiOiIifQ.MdxsSe8UKH56mORPSZ85YVdk_7AhBvM0rtxA8f5748M # 认证的标识值
+      - NACOS_AUTH_TOKEN=d41d8cd98f00b204e9800998ecf8427ed41d8cd98f00b204e9800998ecf8427e # 认证令牌
+
+  product:
+    build: ./product
+    image: product:latest
+    container_name: product
+    restart: always
+    volumes:
+      - ./product/logs:/logs
+    ports:
+      - "8888:8888"
+    environment:
+      - NACOS_HOST=nacos
+    depends_on:
+      mysql:
+        condition: service_healthy
+      nacos:
+        condition: service_healthy
+
+  uaa:
+    build: ./uaa
+    image: uaa:latest
+    container_name: uaa
+    restart: always
+    volumes:
+      - ./uaa/logs:/logs
+    ports:
+      - "8889:8889"
+    environment:
+      - NACOS_HOST=nacos
+    depends_on:
+      mysql:
+        condition: service_healthy
+      nacos:
+        condition: service_healthy
+
+  gateway:
+    build: ./gateway
+    image: gateway:latest
+    container_name: gateway
+    restart: always
+    volumes:
+      - ./gateway/logs:/logs
+    ports:
+      - "8890:8890"
+    environment:
+      - NACOS_HOST=nacos
+      - REDIS_HOST=redis
+    depends_on:
+      nacos:
+        condition: service_healthy
+
+
+

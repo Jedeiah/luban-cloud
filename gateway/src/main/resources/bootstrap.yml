@@ -1,0 +1,75 @@
+server:
+  port: 8890
+
+spring:
+  application:
+    name: @artifactId@
+  profiles:
+    active: @profiles.active@
+  cloud:
+    nacos:
+      discovery:
+        ephemeral: true #默认是true
+        server-addr: ${NACOS_HOST:192.168.0.151}:${NACOS_PORT:8848}
+        username: nacos
+        password: nacosjedeiah
+        namespace: @nacos.namespace@
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        file-extension: yml
+        name: ${spring.application.name}-${spring.profiles.active}
+        namespace: @nacos.namespace@
+        shared-configs:
+          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+        username: ${spring.cloud.nacos.discovery.username}
+        password: ${spring.cloud.nacos.discovery.password}
+
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]': # 匹配所有请求
+            allowedOrigins: "*" #跨域处理 允许所有的域
+            allowedMethods: # 支持的方法
+              - GET
+              - POST
+              - PUT
+              - DELETE
+      routes:
+        - id: uaa
+          uri: lb://uaa
+          predicates:
+            - Path=/api/uaa/**
+          filters:
+            - StripPrefix=2
+            - name: RequestRateLimiter #局部限流过滤器，请求数限流 ，使用默认的facatory
+              args:
+                key-resolver: "#{@ipKeyResolver}"# 用户身份唯一标识（与代码里的注释写法一致）
+                redis-rate-limiter.replenishRate: 1 #每秒只允许一个请求
+                redis-rate-limiter.burstCapacity: 3 #宽限的请求数量（即实际允许并发4个请求）
+        - id: product
+          uri: lb://product
+          predicates:
+            - Path=/api/product/**
+          filters:
+            - StripPrefix=2
+
+  #Redis配置
+  data:
+    redis:
+      host: ${REDIS_HOST:192.168.0.151}
+      port: 6379
+      password: jedeiah
+
+# actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      enabled: true
+      show-details: ALWAYS
+    gateway:
+      enabled: true
+

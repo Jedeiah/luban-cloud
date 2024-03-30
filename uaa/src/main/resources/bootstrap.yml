@@ -1,0 +1,26 @@
+server:
+  port: 8889
+spring:
+  application:
+    name: @artifactId@
+  profiles:
+    active: @profiles.active@
+  cloud:
+    nacos:
+      discovery:
+        ephemeral: true #默认是true
+        server-addr: ${NACOS_HOST:192.168.0.151}:${NACOS_PORT:8848}
+        username: nacos
+        password: nacosjedeiah
+        namespace: @nacos.namespace@
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        file-extension: yml
+        name: ${spring.application.name}-${spring.profiles.active}
+        namespace: @nacos.namespace@
+        shared-configs:
+          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+        username: ${spring.cloud.nacos.discovery.username}
+        password: ${spring.cloud.nacos.discovery.password}
+
+
