@@ -1,6 +1,7 @@
 package com.jedeiah.uaa.service;
 
-import com.jedeiah.uaa.commons.RespVo;
+import com.jedeiah.uaa.vo.UsersVo;
+import com.jedeiah.commons.vo.RespVo;
 import com.jedeiah.uaa.entity.Users;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -31,10 +32,10 @@ public interface UsersService extends IService<Users> {
     /**
      * Users新增
      *
-     * @param users 根据需要进行传值
+     * @param usersVo 根据需要进行传值
      * @return
      */
-    void add(Users users);
+    void add(UsersVo usersVo);
 
     /**
      * Users修改
@@ -52,7 +53,7 @@ public interface UsersService extends IService<Users> {
      */
     void remove(String ids);
 
-    RespVo login(String username, String password);
+    RespVo loginJwt(String username, String password);
 }
 
 

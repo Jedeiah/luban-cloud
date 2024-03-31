@@ -8,10 +8,6 @@ import org.junit.jupiter.api.Test;
 import java.util.Date;
 
 public class JwtTest {
-
-    /****
-     * 创建Jwt令牌
-     */
     @Test
     public void testCreateJwt() {
         JwtBuilder builder = Jwts.builder()

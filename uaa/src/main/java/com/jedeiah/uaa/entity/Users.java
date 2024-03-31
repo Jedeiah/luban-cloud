@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -37,7 +38,7 @@ public class Users implements Serializable {
 
     @Schema(description = "用户唯一标识uuid")
     @TableField("user_id")
-    private String userId;
+    private String userId = UUID.randomUUID().toString();
 
     @Schema(description = "用户名")
     @TableField("username")
@@ -58,5 +59,5 @@ public class Users implements Serializable {
     @Schema(description = "逻辑删除标记")
     @TableField("deleted")
     @TableLogic
-    private Boolean deleted;
+    private boolean deleted;
 }

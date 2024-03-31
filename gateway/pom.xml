@@ -12,7 +12,6 @@
 
     <groupId>com.jedeiah</groupId>
     <artifactId>gateway</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>gateway</name>
     <description>gateway</description>
 
@@ -49,6 +48,15 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jedeiah</groupId>
+            <artifactId>commons</artifactId>
         </dependency>
 
     </dependencies>

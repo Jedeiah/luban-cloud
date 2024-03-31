@@ -1,13 +1,18 @@
 package com.jedeiah.uaa.controller;
 
-import com.jedeiah.uaa.commons.RespVo;
+import com.jedeiah.commons.utls.JwtTokenUtil;
+import com.jedeiah.commons.vo.RespVo;
+import com.jedeiah.uaa.vo.UsersVo;
+
+import com.jedeiah.commons.group.AddGroup;
+import com.jedeiah.commons.group.UpdateGroup;
 import com.jedeiah.uaa.entity.Users;
 import com.jedeiah.uaa.service.UsersService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,21 +23,25 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/users")
-@Tag(name = "用户信息表")
+@Tag(name = "用户信息")
 public class UsersController {
 
     @Autowired
     private UsersService usersService;
 
 
-    /***
-     * 用户登录
-     */
-    @RequestMapping(value = "/login")
-    public RespVo login(String username, String password) {
-        return usersService.login(username, password);
+    @GetMapping(value = "/jwtToken")
+    @Operation(summary = "获取token")
+    public RespVo<String> getJwtToken(String usersId) {
+        return RespVo.success(JwtTokenUtil.genAccessToken(usersId));
     }
 
+
+    @GetMapping("/login/jwt")
+    @Operation(summary = "jwt登陆")
+    public RespVo loginJwt(@RequestParam("username") String username,@RequestParam("password") String password) {
+        return usersService.loginJwt(username, password);
+    }
 
     @GetMapping("/selectOne")
     @Operation(summary = "Users查询单个")
@@ -43,21 +52,21 @@ public class UsersController {
 
     @GetMapping("/listAll")
     @Operation(summary = "Users查询全部")
-    public List<Users> getAllUsers() {
+    public RespVo<List<Users>> getAllUsers() {
         List<Users> usersList = usersService.getAllUsers();
-        return usersList;
+        return RespVo.success(usersList);
     }
 
     @PostMapping("/add")
-    @Operation(summary = "Users新增")
-    public Object add(@Valid @RequestBody Users users) {
-        usersService.add(users);
-        return null;
+    @Operation(summary = "Users新增，注册")
+    public RespVo add(@Validated(AddGroup.class) @RequestBody UsersVo usersVo) {
+        usersService.add(usersVo);
+        return RespVo.success("注册成功！");
     }
 
     @PutMapping("/update")
     @Operation(summary = "Users修改")
-    public int update(@Valid @RequestBody Users users) {
+    public int update(@Validated(UpdateGroup.class) @RequestBody Users users) {
         int num = usersService.modify(users);
         return num;
     }
@@ -65,7 +74,8 @@ public class UsersController {
 
     @DeleteMapping(value = "/delete/{ids}")
     @Operation(summary = "Users删除(单个条目)")
-    public Object remove(@NotBlank(message = "{required}") @PathVariable String ids) {
+    public Object remove(@NotBlank(message = "请传id")
+                         @PathVariable String ids) {
         usersService.remove(ids);
         return null;
     }

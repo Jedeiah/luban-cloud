@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@ComponentScan(basePackages = {"com.jedeiah.doc", "com.jedeiah.uaa"})
+@ComponentScan(basePackages = {"com.jedeiah.doc","com.jedeiah.commons","com.jedeiah.uaa"})
 public class UaaApplication {
 
     public static void main(String[] args) {

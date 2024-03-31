@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
 
+import com.jedeiah.commons.enums.PermissionEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,7 +37,7 @@ public class Permissions implements Serializable {
 
     @Schema(description = "权限名称")
     @TableField("permission_name")
-    private String permissionName;
+    private PermissionEnum permissionName;
 
     @Schema(description = "权限描述")
     @TableField("description")
@@ -45,5 +46,5 @@ public class Permissions implements Serializable {
     @Schema(description = "逻辑删除标记")
     @TableField("deleted")
     @TableLogic
-    private Boolean deleted;
+    private boolean deleted;
 }

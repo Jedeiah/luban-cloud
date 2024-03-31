@@ -24,3 +24,4 @@ spring:
         password: ${spring.cloud.nacos.discovery.password}
 
 
+

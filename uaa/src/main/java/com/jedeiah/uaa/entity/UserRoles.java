@@ -8,6 +8,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -25,6 +27,8 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @TableName("user_roles")
 @Schema(name = "UserRoles", description = "用户角色关联表")
+@Builder
+@AllArgsConstructor
 public class UserRoles implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,5 +48,5 @@ public class UserRoles implements Serializable {
     @Schema(description = "逻辑删除标记")
     @TableField("deleted")
     @TableLogic
-    private Boolean deleted;
+    private boolean deleted;
 }

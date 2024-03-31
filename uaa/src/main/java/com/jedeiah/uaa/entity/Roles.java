@@ -54,5 +54,5 @@ public class Roles implements Serializable {
     @Schema(description = "逻辑删除标记")
     @TableField("deleted")
     @TableLogic
-    private Boolean deleted;
+    private boolean deleted;
 }
