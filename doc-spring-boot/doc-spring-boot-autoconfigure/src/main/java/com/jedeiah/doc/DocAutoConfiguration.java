@@ -22,7 +22,7 @@ import org.springframework.context.annotation.Configuration;
 @AutoConfigureBefore(SpringDocConfiguration.class)
 public class DocAutoConfiguration {
 
-    private static final String TOKEN_HEADER = "Authorization";
+    private static final String TOKEN_HEADER = "AuthorizationJwt";
 
     @Value("${spring.application.name:#{null}}")
     private String applicationName;
