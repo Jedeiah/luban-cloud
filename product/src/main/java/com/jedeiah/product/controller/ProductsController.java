@@ -1,6 +1,7 @@
 package com.jedeiah.product.controller;
 
 import com.jedeiah.commons.enums.PermissionEnum;
+import com.jedeiah.commons.vo.RespVo;
 import com.jedeiah.product.aop.PermissionRequired;
 import com.jedeiah.product.entity.Products;
 import com.jedeiah.product.service.ProductsService;
@@ -29,41 +30,41 @@ public class ProductsController {
     @GetMapping("/selectOne")
     @Operation(summary = "Products查询单个")
     @PermissionRequired(operation = PermissionEnum.READ)
-    public Products getProducts(@RequestParam("id") Integer id) {
+    public RespVo<Products> getProducts(@RequestParam("id") Integer id) {
         Products productsOne = productsService.getProducts(id);
-        return productsOne;
+        return RespVo.success(productsOne);
     }
 
     @GetMapping("/listAll")
     @Operation(summary = "Products查询全部")
     @PermissionRequired(operation = PermissionEnum.READ)
-    public List<Products> getAllProducts() {
+    public RespVo<List<Products>> getAllProducts() {
         List<Products> productsList = productsService.getAllProducts();
-        return productsList;
+        return RespVo.success(productsList);
     }
 
     @PostMapping("/add")
     @Operation(summary = "Products新增")
     @PermissionRequired(operation = PermissionEnum.CREATE)
-    public Object add(@Valid @RequestBody Products products) {
+    public RespVo add(@Valid @RequestBody Products products) {
         productsService.add(products);
-        return null;
+        return RespVo.success("新增成功");
     }
 
     @PutMapping("/update")
     @Operation(summary = "Products修改")
     @PermissionRequired(operation = PermissionEnum.UPDATE)
-    public int update(@Valid @RequestBody Products products) {
+    public RespVo update(@Valid @RequestBody Products products) {
         int num = productsService.modify(products);
-        return num;
+        return RespVo.success("修改成功");
     }
 
 
     @DeleteMapping(value = "/delete/{ids}")
     @Operation(summary = "Products删除(单个条目)")
     @PermissionRequired(operation = PermissionEnum.DELETE)
-    public Object remove(@NotBlank(message = "{required}") @PathVariable String ids) {
+    public RespVo remove(@NotBlank(message = "{required}") @PathVariable String ids) {
         productsService.remove(ids);
-        return null;
+        return RespVo.success("删除成功");
     }
 }

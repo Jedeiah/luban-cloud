@@ -156,3 +156,105 @@
 
 2024-03-31 20:37:00,727 INFO [PUSH-SUCC] 16ms, all delay time 690ms, SLA 690ms, Service{namespace='dev', group='DEFAULT_GROUP', name='uaa', ephemeral=true, revision=7}, originalSize=1, DataSize=1, target=192.168.0.151
 
+2024-03-31 21:22:51,800 INFO [PUSH-SUCC] 46ms, all delay time 618ms for subscriber 192.168.0.151, Service{namespace='dev', group='DEFAULT_GROUP', name='product', ephemeral=true, revision=1}, originalSize=1, DataSize=1
+
+2024-03-31 21:35:39,862 INFO [PUSH-SUCC] 13ms, all delay time 621ms for subscriber 192.168.0.151, Service{namespace='dev', group='DEFAULT_GROUP', name='uaa', ephemeral=true, revision=1}, originalSize=1, DataSize=1
+
+2024-03-31 21:38:03,385 ERROR [PUSH-FAIL] 5016ms, Service{namespace='dev', group='DEFAULT_GROUP', name='uaa', ephemeral=true, revision=3}, reason=Timeout After 5000 milliseconds,requestId =20, target=192.168.0.151
+
+2024-03-31 21:38:03,408 ERROR Reason detail: 
+
+java.util.concurrent.TimeoutException: Timeout After 5000 milliseconds,requestId =20
+	at com.alibaba.nacos.api.remote.DefaultRequestFuture$TimeoutHandler.run(DefaultRequestFuture.java:194)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:750)
+2024-03-31 21:38:09,455 ERROR [PUSH-FAIL] 5005ms, Service{namespace='dev', group='DEFAULT_GROUP', name='uaa', ephemeral=true, revision=3}, reason=Timeout After 5000 milliseconds,requestId =21, target=192.168.0.151
+
+2024-03-31 21:38:09,457 ERROR Reason detail: 
+
+java.util.concurrent.TimeoutException: Timeout After 5000 milliseconds,requestId =21
+	at com.alibaba.nacos.api.remote.DefaultRequestFuture$TimeoutHandler.run(DefaultRequestFuture.java:194)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:750)
+2024-03-31 21:38:15,487 ERROR [PUSH-FAIL] 5005ms, Service{namespace='dev', group='DEFAULT_GROUP', name='uaa', ephemeral=true, revision=3}, reason=Timeout After 5000 milliseconds,requestId =22, target=192.168.0.151
+
+2024-03-31 21:38:15,497 ERROR Reason detail: 
+
+java.util.concurrent.TimeoutException: Timeout After 5000 milliseconds,requestId =22
+	at com.alibaba.nacos.api.remote.DefaultRequestFuture$TimeoutHandler.run(DefaultRequestFuture.java:194)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:750)
+2024-03-31 21:38:21,599 ERROR [PUSH-FAIL] 5008ms, Service{namespace='dev', group='DEFAULT_GROUP', name='uaa', ephemeral=true, revision=3}, reason=Timeout After 5000 milliseconds,requestId =23, target=192.168.0.151
+
+2024-03-31 21:38:21,612 ERROR Reason detail: 
+
+java.util.concurrent.TimeoutException: Timeout After 5000 milliseconds,requestId =23
+	at com.alibaba.nacos.api.remote.DefaultRequestFuture$TimeoutHandler.run(DefaultRequestFuture.java:194)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:750)
+2024-03-31 21:38:27,750 ERROR [PUSH-FAIL] 5006ms, Service{namespace='dev', group='DEFAULT_GROUP', name='uaa', ephemeral=true, revision=3}, reason=Timeout After 5000 milliseconds,requestId =24, target=192.168.0.151
+
+2024-03-31 21:38:27,763 ERROR Reason detail: 
+
+java.util.concurrent.TimeoutException: Timeout After 5000 milliseconds,requestId =24
+	at com.alibaba.nacos.api.remote.DefaultRequestFuture$TimeoutHandler.run(DefaultRequestFuture.java:194)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:750)
+2024-03-31 21:38:33,819 ERROR [PUSH-FAIL] 5004ms, Service{namespace='dev', group='DEFAULT_GROUP', name='uaa', ephemeral=true, revision=3}, reason=Timeout After 5000 milliseconds,requestId =25, target=192.168.0.151
+
+2024-03-31 21:38:33,820 ERROR Reason detail: 
+
+java.util.concurrent.TimeoutException: Timeout After 5000 milliseconds,requestId =25
+	at com.alibaba.nacos.api.remote.DefaultRequestFuture$TimeoutHandler.run(DefaultRequestFuture.java:194)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:750)
+2024-03-31 21:38:36,499 INFO [PUSH-SUCC] 1670ms, all delay time 2678ms for subscriber 192.168.0.151, Service{namespace='dev', group='DEFAULT_GROUP', name='uaa', ephemeral=true, revision=3}, originalSize=1, DataSize=1
+
+2024-03-31 21:38:58,323 INFO [PUSH-SUCC] 16ms, all delay time 574ms for subscriber 192.168.0.151, Service{namespace='dev', group='DEFAULT_GROUP', name='uaa', ephemeral=true, revision=3}, originalSize=1, DataSize=1
+
+2024-03-31 21:44:39,818 INFO [PUSH-SUCC] 20ms, all delay time 621ms for subscriber 192.168.0.151, Service{namespace='dev', group='DEFAULT_GROUP', name='product', ephemeral=true, revision=3}, originalSize=1, DataSize=1
+
+2024-03-31 21:45:45,901 INFO [PUSH-SUCC] 33ms, all delay time 627ms for subscriber 192.168.0.151, Service{namespace='dev', group='DEFAULT_GROUP', name='uaa', ephemeral=true, revision=3}, originalSize=1, DataSize=1
+
+2024-03-31 22:01:05,685 INFO [PUSH-SUCC] 19ms, all delay time 577ms, SLA 578ms, Service{namespace='dev', group='DEFAULT_GROUP', name='product', ephemeral=true, revision=4}, originalSize=0, DataSize=0, target=192.168.0.151
+
+2024-03-31 22:01:09,792 INFO [PUSH-SUCC] 17ms, all delay time 578ms, SLA 578ms, Service{namespace='dev', group='DEFAULT_GROUP', name='product', ephemeral=true, revision=5}, originalSize=1, DataSize=1, target=192.168.0.151
+
+2024-03-31 22:01:37,577 INFO [PUSH-SUCC] 27ms, all delay time 767ms for subscriber 192.168.0.151, Service{namespace='dev', group='DEFAULT_GROUP', name='uaa', ephemeral=true, revision=3}, originalSize=1, DataSize=1
+
+2024-03-31 22:11:56,864 INFO [PUSH-SUCC] 22ms, all delay time 595ms, SLA 597ms, Service{namespace='dev', group='DEFAULT_GROUP', name='product', ephemeral=true, revision=6}, originalSize=0, DataSize=0, target=192.168.0.151
+
+2024-03-31 22:12:03,693 INFO [PUSH-SUCC] 17ms, all delay time 575ms, SLA 576ms, Service{namespace='dev', group='DEFAULT_GROUP', name='product', ephemeral=true, revision=7}, originalSize=1, DataSize=1, target=192.168.0.151
+
+2024-03-31 22:12:46,522 INFO [PUSH-SUCC] 20ms, all delay time 546ms for subscriber 192.168.0.151, Service{namespace='dev', group='DEFAULT_GROUP', name='uaa', ephemeral=true, revision=3}, originalSize=1, DataSize=1
+

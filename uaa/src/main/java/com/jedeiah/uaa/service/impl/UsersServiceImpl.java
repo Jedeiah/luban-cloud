@@ -61,9 +61,9 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         String username = usersVo.getUsername();
         //应该手动绑定， 或者一定的规则，我为了省事
         UserRoles.UserRolesBuilder userRolesBuilder = UserRoles.builder().userId(users.getUserId()).roleName("USER");
-        if (username.matches(".*\\beditor\\b.*")) {
+        if (username.matches(".*editor.*")) {
             userRolesBuilder.roleName("EDITOR");
-        } else if (username.matches(".*\\badm\\b.*")) {
+        } else if (username.matches(".*adm.*")) {
             userRolesBuilder.roleName("PRODUCT_ADMIN");
         }
         usersMapper.insert(users);
