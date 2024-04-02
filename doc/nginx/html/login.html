@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>鲁班 登陆</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #f7f7f7;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        #loginForm {
+            width: 300px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+<h1>登陆</h1>
+<form id="loginForm">
+    <input type="text" id="username" placeholder="账号" required>
+    <input type="password" id="password" placeholder="密码" required>
+    <button type="submit">登陆</button>
+</form>
+<p class="register-link">还没有账号? <a href="register.html">注册</a>.</p>
+<a href="#" id="githubAuthLink">进行GitHub授权</a>
+<script>
+    document.getElementById('loginForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        var username = document.getElementById('username').value;
+        var password = document.getElementById('password').value;
+
+        // 使用Fetch API发送登录请求
+        fetch('http://localhost:8890/api/uaa/users/login/jwt?username=' + encodeURIComponent(username) + '&password=' + encodeURIComponent(password), {
+            method: 'GET'
+        }).then(fetchCallback).then(data => {
+            if (!data.success) {
+                throw new Error(data.errMsg);
+            }
+            handSessionTokenToHome(data.data);
+
+        }).catch(error => {
+            alert(error.message);
+        });
+    });
+    //  添加 JavaScript 逻辑来处理 GitHub 授权链接的点击事件
+    document.getElementById('githubAuthLink').addEventListener('click', function (event) {
+        event.preventDefault();
+        fetch('http://localhost:8890/oauth2/authorizeUrl', {
+            method: 'GET',
+        }).then(fetchCallback).then(data => {
+            if (!data.success) {
+                throw new Error(data.errMsg);
+            }
+            window.location.href = data.data;
+        }).catch(error => {
+            alert(error.message);
+        });
+    });
+
+    function fetchCallback(response) {
+        // 检查响应是否成功
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+        // 解析响应体以获取会话令牌
+        return response.json();
+    }
+
+    function handSessionTokenToHome(token) {
+        // 将会话令牌保存到浏览器的本地存储中
+        document.cookie = 'AuthorizationJwt=' + token + '; path=/';
+        // 重定向到系统的主页或其他页面
+        window.location.href = 'home.html';
+    }
+</script>
+</body>
+</html>

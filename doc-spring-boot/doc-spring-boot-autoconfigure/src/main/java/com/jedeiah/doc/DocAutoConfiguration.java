@@ -1,14 +1,11 @@
 package com.jedeiah.doc;
 
-import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
-import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import com.jedeiah.commons.enums.TokenEnum;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
-import io.swagger.v3.oas.models.media.StringSchema;
-import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springdoc.core.configuration.SpringDocConfiguration;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +19,6 @@ import org.springframework.context.annotation.Configuration;
 @AutoConfigureBefore(SpringDocConfiguration.class)
 public class DocAutoConfiguration {
 
-    private static final String TOKEN_HEADER = "AuthorizationJwt";
 
     @Value("${spring.application.name:#{null}}")
     private String applicationName;
@@ -31,7 +27,7 @@ public class DocAutoConfiguration {
     public OpenAPI openApi() {
         return new OpenAPI()
                 .components(
-                        new Components().addSecuritySchemes(TOKEN_HEADER,
+                        new Components().addSecuritySchemes(TokenEnum.JWT_TOKEN.name(),
                                 new SecurityScheme()
                                         .type(SecurityScheme.Type.APIKEY)
                                         .name("JWT")

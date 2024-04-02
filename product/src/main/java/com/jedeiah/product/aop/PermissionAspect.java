@@ -28,8 +28,14 @@ public class PermissionAspect {
         // 根据 userId 和操作类型查询数据库权限
         PermissionEnum operation = permissionRequired.operation();
         boolean hasPermission = userAccountInfoRemote.hasPermission(userId, operation);
+        if (!hasPermission) {
+            Assert.isTrue( PermissionEnum.CREATE != operation, "您没有新增权限！");
+            Assert.isTrue( PermissionEnum.DELETE != operation, "您没有删除权限！");
+            Assert.isTrue( PermissionEnum.UPDATE != operation, "您没有修改权限！");
+            Assert.isTrue( PermissionEnum.READ != operation, "您没有查询权限！");
+        }
 
-        Assert.isTrue(hasPermission, "您没有权限进行此操作！");
+
     }
 
     private String getCurrentUserIdFromHeader() {

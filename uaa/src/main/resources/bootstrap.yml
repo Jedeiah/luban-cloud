@@ -22,6 +22,12 @@ spring:
           - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
         username: ${spring.cloud.nacos.discovery.username}
         password: ${spring.cloud.nacos.discovery.password}
-
+github:
+  clientId: d9352007e09ee5ddbb99
+  clientSecret: e0c4667eeb79008d31364ae7a1793376e00cd4e7
+  authorizeUrl: https://github.com/login/oauth/authorize
+  redirectUrl : http://localhost:8090/githubloding.html
+  accessTokenUrl: https://github.com/login/oauth/access_token
+  userInfoUrl: https://api.github.com/user
 
 

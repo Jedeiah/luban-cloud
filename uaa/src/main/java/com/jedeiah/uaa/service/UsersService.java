@@ -1,5 +1,6 @@
 package com.jedeiah.uaa.service;
 
+import com.jedeiah.uaa.vo.GitHubUser;
 import com.jedeiah.uaa.vo.UsersVo;
 import com.jedeiah.commons.vo.RespVo;
 import com.jedeiah.uaa.entity.Users;
@@ -54,6 +55,8 @@ public interface UsersService extends IService<Users> {
     void remove(String ids);
 
     RespVo loginJwt(String username, String password);
+
+    String loginOrRegister(GitHubUser userInfo);
 }
 
 
