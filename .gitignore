@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+/doc/mysql8/data/
+/doc/**/log/
+/doc/**/*.jar

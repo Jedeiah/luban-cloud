@@ -1,14 +1,10 @@
-CREATE
-USER 'nacos'@'%' IDENTIFIED BY 'nacosjedeiah';
-GRANT ALL PRIVILEGES ON nacos_config.* TO
-'nacos'@'%';
+CREATE USER 'nacos'@'%' IDENTIFIED BY 'nacosjedeiah';
+GRANT ALL PRIVILEGES ON nacos_config.* TO 'nacos'@'%';
 FLUSH
 PRIVILEGES;
 
-CREATE
-DATABASE IF NOT EXISTS `nacos_config` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE
-`nacos_config`;
+CREATE DATABASE IF NOT EXISTS `nacos_config` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE `nacos_config`;
 
 /******************************************/
 /*   表名称 = config_info                  */

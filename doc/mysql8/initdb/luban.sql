@@ -1,11 +1,8 @@
-CREATE
-DATABASE IF NOT EXISTS `luban` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE
-`luban`;
+CREATE DATABASE IF NOT EXISTS `luban` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE `luban`;
 
 -- 产品
-CREATE TABLE products
-(
+CREATE TABLE products(
     id   INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL
 );
