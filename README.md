@@ -46,11 +46,12 @@
 2. 安装maven
 3. 克隆项目仓库：`git clone https://github.com/Jedeiah/luban-cloud.git`
 4. 进入项目目录：`cd spring-boot-project`
-5. 修改项目相关ip：项目全局替换 localhost 为 你的机器 （除.md、java文件。。。）
-6. install项目：`mvn clean install -f ./pom.xml`
-7. 进入项目部署目录：`cd ./doc`
-8. 若要远程部署，则将当前目录下所有文件cp至服务器
-8. 一键部署启动：`docer-compose -f ./docker-compose.yml -d --build`
+5. 修改项目相关ip：项目全局替换 localhost 为 你的机器ip （除.md、java文件。。。）
+6. 修改mysql初始化sql文件中nacos数据库连接ip，`./doc/mysql8/nacos.sql`，可同上5，项目全局替换 192.168.0.151 为 你的机器ip
+7. install项目：`mvn clean install -f ./pom.xml`
+8. 进入项目部署目录：`cd ./doc`
+9. 若要远程部署，则将当前目录下所有文件cp至服务器
+10. 一键部署启动：`docer-compose -f ./docker-compose.yml -d --build`
 
 ## 效果
 http://your_ip:8090/login.html
