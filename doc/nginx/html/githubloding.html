@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>正在加载中...</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .loader {
+            border: 5px solid #f3f3f3; /* Light grey */
+            border-top: 5px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        h1 {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="loader"></div>
+<h1>正在加载中...</h1>
+<script>
+    // 监听URL的变化
+    window.onload = function() {
+        // 检查URL中是否包含授权码
+        var searchParams = new URLSearchParams(window.location.search);
+        var code = searchParams.get('code');
+
+        if (code) {
+            fetch('http://localhost:8890/oauth2/callback/github/authorizationJwt/token?code=' + encodeURIComponent(code), {
+                method: 'GET'
+            }).then(fetchCallback).then(data => {
+                if (!data.success) {
+                    throw new Error(data.errMsg);
+                }
+                handSessionTokenToHome(data.data);
+            }).catch(error => {
+                alert(error.message);
+            });
+        }
+    };
+    function fetchCallback(response) {
+        // 检查响应是否成功
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+        // 解析响应体以获取会话令牌
+        return response.json();
+    }
+
+    function handSessionTokenToHome(token) {
+        // 将会话令牌保存到浏览器的本地存储中
+        document.cookie = 'AuthorizationJwt=' + token + '; path=/';
+        // 重定向到系统的主页或其他页面
+        window.location.href = 'home.html';
+    }
+</script>
+</body>
+</html>
