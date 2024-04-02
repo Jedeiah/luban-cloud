@@ -20,7 +20,7 @@ public class JwtTokenUtil {
     /**
      * 过期时间(单位:秒) 默认五分钟
      */
-    public static final int ACCESS_EXPIRE = 60 * 10;
+    public static final int ACCESS_EXPIRE = 60 * 30;
     /**
      * 加密算法
      */

@@ -36,6 +36,11 @@ CREATE TABLE `config_info`
     UNIQUE KEY `uk_configinfo_datagrouptenant` (`data_id`,`group_id`,`tenant_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='config_info';
 
+INSERT INTO `config_info` (`id`, `data_id`, `group_id`, `content`, `md5`, `gmt_create`, `gmt_modified`, `src_user`, `src_ip`, `app_name`, `tenant_id`, `c_desc`, `c_use`, `effect`, `type`, `c_schema`, `encrypted_data_key`) VALUES (2, 'product-dev.yml', 'DEFAULT_GROUP', '# Logger Config\n# logging:\n#   level:\n#     com.jedeiah: debug\n#     com.zaxxer.hikari: info\n\n', '88a08e03abdada0e813ba4d0afe12db8', '2024-03-29 17:27:53', '2024-03-30 14:45:16', 'nacos', '192.168.65.1', '', 'dev', '', '', '', 'yaml', '', '');
+INSERT INTO `config_info` (`id`, `data_id`, `group_id`, `content`, `md5`, `gmt_create`, `gmt_modified`, `src_user`, `src_ip`, `app_name`, `tenant_id`, `c_desc`, `c_use`, `effect`, `type`, `c_schema`, `encrypted_data_key`) VALUES (4, 'application-dev.yml', 'DEFAULT_GROUP', '## 配置swagger文档的访问路径，访问地址：http://127.0.0.1:8080/swagger-ui.html\nspringdoc:\n  swagger-ui:\n    # 持久化认证数据，如果设置为 true，它会保留授权数据并且不会在浏览器关闭/刷新时丢失\n    persistAuthorization: true\nspring:\n  datasource:\n    driver-class-name: com.mysql.cj.jdbc.Driver\n    url: jdbc:mysql://192.168.0.151:3306/luban?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false\n    username: root\n    password: jedeiah\n    hikari:\n      connection-timeout: 30000  # 获取连接的超时时间（单位：毫秒），默认值为 30000 30秒\n      idle-timeout: 180000  # 连接空闲时的超时时间（单位：毫秒），默认值为 600000 10分钟\n      max-lifetime: 180000  # 连接的最大生命周期（单位：毫秒），默认值为 1800000 30分钟\n      maximum-pool-size: 10  # 连接池中允许的最大连接数，默认值为 10\n      minimum-idle: 5  # 连接池中保持的最小空闲连接数，默认值为 maximum-pool-size 的一半\n      connection-test-query: SELECT 1  # 用于测试连接的 SQL 查询语句，默认值为 null\n      validation-timeout: 3000  # 连接验证超时时间（单位：毫秒），默认值为 5000\n      leak-detection-threshold: 0  # 连接泄漏检测阈值（单位：毫秒），默认值为 0\n      initialization-fail-timeout: 1000  # 初始化失败超时时间（单位：毫秒），默认值为 1000\n      isolate-internal-queries: false  # 是否隔离内部查询，默认值为 false\n      allow-pool-suspension: false  # 是否允许连接池暂停，默认值为 false\n      read-only: false  # 连接是否只读，默认值为 false\n      register-mbeans: false  # 是否注册 JMX MBeans，默认值为 false\n      auto-commit: true  # 是否自动提交事务，默认值为 true\n    #Redis配置\n  data:\n    redis:\n      host: ${REDIS_HOST:192.168.0.151}\n      port: 6379\n      password: jedeiah\n\n# actuator\nmanagement:\n  endpoints:\n    web:\n      exposure:\n        include: \'*\'\n  endpoint:\n    health:\n      enabled: true\n      show-details: ALWAYS\n    gateway:\n      enabled: true\n\nmybatis-plus:\n  typeEnumsPackage: com.jedeiah.commons.enums', '0b732664450c55690ec7962a8f3a43a0', '2024-03-29 17:30:46', '2024-03-31 15:28:21', 'nacos', '192.168.65.1', '', 'dev', '', '', '', 'yaml', '', '');
+INSERT INTO `config_info` (`id`, `data_id`, `group_id`, `content`, `md5`, `gmt_create`, `gmt_modified`, `src_user`, `src_ip`, `app_name`, `tenant_id`, `c_desc`, `c_use`, `effect`, `type`, `c_schema`, `encrypted_data_key`) VALUES (14, 'uaa-dev.yml', 'DEFAULT_GROUP', 'github:\n  clientId: d9352007e09ee5ddbb99\n  clientSecret: e0c4667eeb79008d31364ae7a1793376e00cd4e7\n  authorizeUrl: https://github.com/login/oauth/authorize\n  redirectUrl : http://localhost:8090/githubloding.html\n  accessTokenUrl: https://github.com/login/oauth/access_token\n  userInfoUrl: https://api.github.com/user\n\n', 'cc83e29cad8ee03bef4502075f7ab41d', '2024-03-30 01:04:59', '2024-04-02 18:34:14', 'nacos', '192.168.65.1', '', 'dev', '', '', '', 'yaml', '', '');
+INSERT INTO `config_info` (`id`, `data_id`, `group_id`, `content`, `md5`, `gmt_create`, `gmt_modified`, `src_user`, `src_ip`, `app_name`, `tenant_id`, `c_desc`, `c_use`, `effect`, `type`, `c_schema`, `encrypted_data_key`) VALUES (23, 'gateway-dev.yml', 'DEFAULT_GROUP', 'spring:\n  cloud:\n    gateway:\n      globalcors:\n        add-to-simple-url-handler-mapping: true # 解决options请求被拦截问题\n        corsConfigurations:\n          \'[/**]\': # 匹配所有请求\n            allowedOriginPatterns: \"*\" #跨域处理 允许所有的域\n            allowedMethods: # 支持的方法\n              - GET\n              - POST\n              - PUT\n              - DELETE\n              - OPTIONS\n            allowedHeaders: \"*\" # 允许在请求中携带的头信息\n            allowCredentials: true # 是否允许携带cookie\n            maxAge: 360000 # 这次跨域检测的有效期\n      routes:\n        - id: uaa\n          uri: lb://uaa\n          predicates:\n            - Path=/api/uaa/**\n          filters:\n            - StripPrefix=2\n            - name: RequestRateLimiter #局部限流过滤器，请求数限流 ，使用默认的facatory\n              args:\n                key-resolver: \"#{@ipKeyResolver}\"# 用户身份唯一标识（与代码里的注释写法一致）\n                redis-rate-limiter.replenishRate: 1 #每秒只允许一个请求\n                redis-rate-limiter.burstCapacity: 3 #宽限的请求数量（即实际允许并发4个请求）\n        - id: uaa-oauth2 \n          uri: lb://uaa\n          predicates:\n            - Path=/oauth2/**\n        - id: product\n          uri: lb://product\n          predicates:\n            - Path=/api/product/**\n          filters:\n            - StripPrefix=2\n\n', '0f5632a1c23581527ec539bfcc652ff4', '2024-03-30 14:55:37', '2024-04-01 15:45:31', 'nacos', '192.168.65.1', '', 'dev', '', '', '', 'yaml', '', '');
+
 /******************************************/
 /*   表名称 = config_info_aggr             */
 /******************************************/
@@ -192,6 +197,10 @@ CREATE TABLE `tenant_info`
     UNIQUE KEY `uk_tenant_info_kptenantid` (`kp`,`tenant_id`),
     KEY             `idx_tenant_id` (`tenant_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='tenant_info';
+INSERT INTO `tenant_info` (`kp`, `tenant_id`, `tenant_name`, `tenant_desc`, `create_source`, `gmt_create`, `gmt_modified`) VALUES ('1', 'dev', 'dev', '开发环境', 'nacos', 1711640015359, 1711640015359);
+INSERT INTO `tenant_info` (`kp`, `tenant_id`, `tenant_name`, `tenant_desc`, `create_source`, `gmt_create`, `gmt_modified`) VALUES ('1', 'test', 'test', '测试环境', 'nacos', 1711640026204, 1711640026204);
+
+
 
 CREATE TABLE `users`
 (
@@ -199,6 +208,13 @@ CREATE TABLE `users`
     `password` varchar(500) NOT NULL COMMENT 'password',
     `enabled`  boolean      NOT NULL COMMENT 'enabled'
 );
+-- ----------------------------
+INSERT INTO `users` (`username`, `password`, `enabled`) VALUES ('kaifadev', '$2a$10$qYlJW/BD80g6O3lN36RI2OXn.QcIDEi8aQOBB0gwuGtMuQcQnvuTm', 1);
+INSERT INTO `users` (`username`, `password`, `enabled`) VALUES ('kaifatest', '$2a$10$WiUqrXF6dxCvPzjNbg1pT.TWQvwrnTLYgkqftxPOxfdy6f.PfvRM6', 1);
+INSERT INTO `users` (`username`, `password`, `enabled`) VALUES ('leaderdev', '$2a$10$45PgfD0hjuUYGUVvE9uMuewit9fZgwb38LjSFBKzZfhkt6AKoNDCi', 1);
+INSERT INTO `users` (`username`, `password`, `enabled`) VALUES ('leadertest', '$2a$10$/verw6GOIPzutINkvEKXveNVVX7ViZCmqEvC24PK2iwIEZeqrxXua', 1);
+INSERT INTO `users` (`username`, `password`, `enabled`) VALUES ('nacos', '$2a$10$dTWQWzzcSpEj8v75DlSVw.P/WM2BfZuWG5rwxb3DCisAy7HcUyWxO', 1);
+
 
 CREATE TABLE `roles`
 (
@@ -206,6 +222,11 @@ CREATE TABLE `roles`
     `role`     varchar(50) NOT NULL COMMENT 'role',
     UNIQUE INDEX `idx_user_role` (`username` ASC, `role` ASC) USING BTREE
 );
+INSERT INTO `roles` (`username`, `role`) VALUES ('kaifadev', 'kaifa_dev');
+INSERT INTO `roles` (`username`, `role`) VALUES ('kaifatest', 'kaifa_test');
+INSERT INTO `roles` (`username`, `role`) VALUES ('leaderdev', 'leader_dev');
+INSERT INTO `roles` (`username`, `role`) VALUES ('leadertest', 'leader_text');
+INSERT INTO `roles` (`username`, `role`) VALUES ('nacos', 'ROLE_ADMIN');
 
 CREATE TABLE `permissions`
 (
@@ -214,10 +235,9 @@ CREATE TABLE `permissions`
     `action`   varchar(8)   NOT NULL COMMENT 'action',
     UNIQUE INDEX `uk_role_permission` (`role`,`resource`,`action`) USING BTREE
 );
+INSERT INTO `permissions` (`role`, `resource`, `action`) VALUES ('kaifa_dev', 'dev:*:*', 'r');
+INSERT INTO `permissions` (`role`, `resource`, `action`) VALUES ('kaifa_test', 'test:*:*', 'r');
+INSERT INTO `permissions` (`role`, `resource`, `action`) VALUES ('leader_dev', 'dev:*:*', 'rw');
+INSERT INTO `permissions` (`role`, `resource`, `action`) VALUES ('leader_text', 'test:*:*', 'rw');
 
-INSERT INTO users (username, password, enabled)
-VALUES ('nacos', '$2a$10$dTWQWzzcSpEj8v75DlSVw.P/WM2BfZuWG5rwxb3DCisAy7HcUyWxO', TRUE);
-
-INSERT INTO roles (username, role)
-VALUES ('nacos', 'ROLE_ADMIN');
 
