@@ -1,15 +1,51 @@
-1 安装docker、docker-compose
-2 安装中间件 mysql8、nacos-server2.2.3
+# Spring Boot Project Example
 
+## 概述
+这是一个基于Spring Boot3.0.2、Sping Cloud 2022.0.0.0的一个集账号密码、第三方Github、LDAP登陆认证和注解加自定义AOP实现接口鉴权的简单Demo。 docker一键部署
 
-V：
-spring-boot 3.0.2
-spring-cloud.version 2022.0.0
-spring-cloud-alibaba 2022.0.0.0-RC2
-nacos-client 
-启动：
-先docker-compose mysql、nacos
-再 mvn clean install
-再docker-compose
+## 目录介绍
+- `api`：项目中所有接口声明。
+  - `uaa-api`：uaa模块的接口声明。 
+- `commons`：项目中公共部分（枚举、统一异常、工具类等）。
+- `doc`：docker部署相关文件、部署文档。
+  - `gateway`：网关部署资源，包含Dockerfile、可执行jar
+  - `mysql8`：mysql8版本部署相关
+    - `conf.d`：容器映射配置文件目录
+    - `data`：数据库数据映射目录
+    - `initdb`：nacos初始化脚本、系统初始化脚本
+  - `nacos`：nacos日志挂载目录
+  - `nginx`：
+    - `html`：静态文件
+    - `nginx.cnf`：配置文件
+  - `product`：微服务部署资源
+  - `redis`：redis部署资源
+  - `uaa`：微服务部署资源
+- `doc-spring-boot`：自定义Spring Boot Starter，做些web相关swagger配置。
+- `gateway`：微服务 api 网关模块，Sping Cloud Gateway，请求拦截、token校验、令牌桶限流。
+- `product`：微服务 产品模块。
+- `uaa`：微服务 用户鉴权模块（鉴权可以放到网关）。
 
---- swagger白屏
+## 功能介绍
+前端是简单的html+js实现的，后端是jwt会话token实现的登陆认证，自定义注解@PermissionRequired+aop实现接口层面权限控制。
+功能有登陆、注册，产品的CRUD
+
+## 安装、配置、运行\部署
+1. 自行安装docker、docker-compose
+2. 安装maven
+3. 克隆项目仓库：`git clone https://github.com/Jedeiah/luban-cloud.git`
+4. 进入项目目录：`cd spring-boot-project`
+5. 修改项目相关ip：项目全局替换 localhost 为 你的机器 （除.md、java文件。。。）
+6. install项目：`mvn clean install -f ./pom.xml`
+7. 进入项目部署目录：`cd ./doc`
+8. 若要远程部署，则将当前目录下所有文件cp至服务器
+8. 一键部署启动：`docer-compose -f ./docker-compose.yml -d --build`
+
+## 效果
+http://your_ip:8090/login.html
+
+## curl部分测试
+# 普通用户：只有查询权限 userId：user_1、ldap_user_1
+1. 获取会话token“AuthorizationJwt”： curl http://your_ip:8890/api/uaa/users/jwtToken?userId='user_1'  
+2. 根据会话token，对产品CRUD
+   1. 
+

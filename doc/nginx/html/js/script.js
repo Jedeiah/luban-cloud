@@ -62,7 +62,13 @@ function getCookie(name) {
     return cookieValue;
 }
 
-// 假设的删除和修改函数
+function logout(name) {
+    var date = new Date();
+    date.setTime(date.getTime() - (1 * 24 * 60 * 60 * 1000)); // 设置时间为过去一天
+    var expires = "expires=" + date.toUTCString();
+    document.cookie = name + "=; " + expires + "; path=/";
+    window.location.href = "login.html";
+}
 function deleteProduct(productId) {
     // 使用 Fetch API 发起 DELETE 请求
     fetch(`http://localhost:8890/api/product/products/delete/${productId}`, {
