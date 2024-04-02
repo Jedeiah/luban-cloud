@@ -1,8 +1,8 @@
 [client]
-default-character-set=utf8mb4 # 设置客户端连接时使用的默认字符集
+character-set-server=utf8mb4 # 设置客户端连接时使用的默认字符集
 
 [mysql]
-default-character-set=utf8mb4 # 设置mysql命令行客户端的默认字符集
+character-set-server=utf8mb4 # 设置mysql命令行客户端的默认字符集
 
 [mysqld]
 skip-host-cache # 跳过主机缓存，不缓存授权表中的主机名
