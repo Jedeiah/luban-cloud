@@ -45,7 +45,7 @@ import java.util.Arrays;
     }
     @Override
     public int modify( ${table.entityName} ${table.entityName?uncap_first}) {
-    //乐观锁更新
+
     ${table.entityName} current${table.entityName}= ${table.entityName?uncap_first}Mapper.selectById(${table.entityName?uncap_first}.getId());
     ${table.entityName?uncap_first}.setVersion(current${table.entityName}.getVersion());
     return  ${table.entityName?uncap_first}Mapper.updateById(${table.entityName?uncap_first});

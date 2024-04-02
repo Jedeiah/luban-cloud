@@ -34,4 +34,7 @@ build/
 
 /doc/mysql8/data/
 /doc/**/log/
+/doc/**/logs/
 /doc/**/*.jar
+
+/doc/redis/data/dump.rdb

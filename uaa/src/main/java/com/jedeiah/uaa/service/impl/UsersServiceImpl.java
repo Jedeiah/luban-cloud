@@ -73,7 +73,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
 
     @Override
     public int modify(Users users) {
-        //乐观锁更新
+        
         Users currentUsers = usersMapper.selectById(users.getId());
         return usersMapper.updateById(users);
     }

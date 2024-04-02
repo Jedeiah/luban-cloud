@@ -44,7 +44,7 @@ public class RolesServiceImpl extends ServiceImpl<RolesMapper, Roles> implements
 
     @Override
     public int modify(Roles roles) {
-        //乐观锁更新
+        
         Roles currentRoles = rolesMapper.selectById(roles.getId());
         return rolesMapper.updateById(roles);
     }

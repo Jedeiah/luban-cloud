@@ -1,15 +1,19 @@
 package com.jedeiah.product.controller;
 
 import com.jedeiah.commons.enums.PermissionEnum;
+import com.jedeiah.commons.group.AddGroup;
+import com.jedeiah.commons.group.UpdateGroup;
 import com.jedeiah.commons.vo.RespVo;
 import com.jedeiah.product.aop.PermissionRequired;
 import com.jedeiah.product.entity.Products;
 import com.jedeiah.product.service.ProductsService;
+import com.jedeiah.product.vo.ProductsVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,16 +50,16 @@ public class ProductsController {
     @PostMapping("/add")
     @Operation(summary = "Products新增")
     @PermissionRequired(operation = PermissionEnum.CREATE)
-    public RespVo add(@Valid @RequestBody Products products) {
-        productsService.add(products);
+    public RespVo add(@Validated(AddGroup.class) @RequestBody ProductsVo productsVo) {
+        productsService.add(productsVo);
         return RespVo.success("新增成功");
     }
 
     @PutMapping("/update")
     @Operation(summary = "Products修改")
     @PermissionRequired(operation = PermissionEnum.UPDATE)
-    public RespVo update(@Valid @RequestBody Products products) {
-        int num = productsService.modify(products);
+    public RespVo update(@Validated(UpdateGroup.class) @RequestBody ProductsVo productsVo) {
+        int num = productsService.modify(productsVo);
         return RespVo.success("修改成功");
     }
 

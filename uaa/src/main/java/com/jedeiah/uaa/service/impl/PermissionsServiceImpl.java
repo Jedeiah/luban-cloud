@@ -44,7 +44,7 @@ public class PermissionsServiceImpl extends ServiceImpl<PermissionsMapper, Permi
 
     @Override
     public int modify(Permissions permissions) {
-        //乐观锁更新
+        
         Permissions currentPermissions = permissionsMapper.selectById(permissions.getId());
         return permissionsMapper.updateById(permissions);
     }

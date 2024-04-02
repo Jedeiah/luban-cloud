@@ -2,6 +2,7 @@ package com.jedeiah.product.service;
 
 import com.jedeiah.product.entity.Products;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.jedeiah.product.vo.ProductsVo;
 
 import java.util.List;
 
@@ -30,18 +31,18 @@ public interface ProductsService extends IService<Products> {
     /**
      * Products新增
      *
-     * @param products 根据需要进行传值
+     * @param productsVo 根据需要进行传值
      * @return
      */
-    void add(Products products);
+    void add(ProductsVo productsVo);
 
     /**
      * Products修改
      *
-     * @param products 根据需要进行传值
+     * @param productsVo 根据需要进行传值
      * @return
      */
-    int modify(Products products);
+    int modify(ProductsVo productsVo);
 
     /**
      * Products删除

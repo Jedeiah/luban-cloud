@@ -4,9 +4,11 @@ import com.jedeiah.product.entity.Products;
 import com.jedeiah.product.mapper.ProductsMapper;
 import com.jedeiah.product.service.ProductsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.jedeiah.product.vo.ProductsVo;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
@@ -38,15 +40,18 @@ public class ProductsServiceImpl extends ServiceImpl<ProductsMapper, Products> i
     }
 
     @Override
-    public void add(Products products) {
+    public void add(ProductsVo productsVo) {
+        Products products = new Products();
+        products.setName(productsVo.getName());
         productsMapper.insert(products);
     }
 
     @Override
-    public int modify(Products products) {
-        //乐观锁更新
-        Products currentProducts = productsMapper.selectById(products.getId());
-        return productsMapper.updateById(products);
+    public int modify(ProductsVo productsVo) {
+        Products currentProducts = productsMapper.selectById(productsVo.getId());
+        Assert.notNull(currentProducts,"用户不存在");
+        currentProducts.setName(productsVo.getName());
+        return productsMapper.updateById(currentProducts);
     }
 
     @Override
