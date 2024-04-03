@@ -136,5 +136,73 @@ services:
       - ./nginx/html:/usr/share/nginx/html
     restart: always
 
+  openldap:
+    image: osixia/openldap:latest
+    container_name: openldap
+    restart: always
+    volumes:
+      - ./openldap/ldap:/var/lib/ldap # 存储LDAP数据库文件，包括用户数据、配置和日志等。
+      - ./openldap/slapd.d:/etc/ldap/slapd.d # OpenLDAP配置目录，用于存储LDAP服务器的配置文件
+      - ./openldap/certs:/container/service/lapd/assets/certs # OpenLDAP证书目录，用于存储SSL/TLS证书和密钥。
+      - ./openldap/initdb:/docker-entrypoint-initdb.d:ro # todo 自动初始化
+    ports:
+      - "389:389"
+      - "636:636"
+    environment:
+      LDAP_LOG_LEVEL: "256" # LDAP日志级别 256通常表示stats级别，用于记录统计信息
+      LDAP_ORGANISATION: "jedeiah" # 组织
+      LDAP_DOMAIN: "jedeiah.com" # 公司域名
+      LDAP_BASE_DN: "dc=jedeiah,dc=com" # 根据域名组成
+      LDAP_ADMIN_PASSWORD: "jedeiah" # 管理员密码 用于管理LDAP服务器，例如添加或删除用户和组
+      LDAP_CONFIG_PASSWORD: "jedeiah" # 配置密码 用于保护LDAP服务器的配置文件，防止未授权的修改
+      LDAP_READONLY_USER: "false" # 是否只读用户 如果设置为true，则不允许任何用户修改LDAP目录中的数据
+      LDAP_RFC2307BIS_SCHEMA: "false" # 是否使用RFC2307bis模式
+      LDAP_BACKEND: "mdb" # 后端类型
+      LDAP_REPLICATION: "false" # 是否启用复制 LDAP服务器之间同步数据使用
+      KEEP_EXISTING_CONFIG: "true" # 是否保留现有配置
+      LDAP_REMOVE_CONFIG_AFTER_SETUP: "true" # 设置后是否移除配置
+    tty: true
+    stdin_open: true
+    domainname: "jedeiah.com"
+    hostname: "ldap-server"
+
+  ldapadmin:
+    image: osixia/phpldapadmin:latest
+    container_name: ldapadmin
+    restart: always
+    environment:
+      PHPLDAPADMIN_LDAP_HOSTS: "ldap-server"
+      PHPLDAPADMIN_HTTPS: "false"
+    ports:
+      - "8091:80"
+    depends_on:
+      - openldap
+
+#  ldap-self-service-password:
+#    container_name: ldap-self-service-password
+#    image: tiredofit/self-service-password:latest
+#    restart: always
+#    ports:
+#      - "8092:80"
+#    environment:
+#      - LDAP_SERVER=ldap://openldap:389
+#      - LDAP_BINDDN=cn=admin,dc=jedeiah,dc=com
+#      - LDAP_BINDPASS=Jh@2022
+#      - LDAP_BASE_SEARCH=dc=jedeiah,dc=com
+#      - MAIL_FROM=smtp.163.com
+#      - MAIL_FROM_NAME=账号自助服务平台
+#      - SMTP_DEBUG=0
+#      - SMTP_HOST=smtp.163.com
+#      - SMTP_USER=
+#      - SMTP_PASS=
+#      - SMTP_PORT=465
+#      - SMTP_SECURE_TYPE=ssl
+#      - SMTP_AUTH_ON=true
+#      - NOTIFY_ON_CHANGE=true
+#    volumes:
+#      - /etc/localtime:/etc/localtime
+#      - ./self-service-password/htdocs:/www/ssp
+#      - ./self-service-password/logs:/www/logs
+
 
 

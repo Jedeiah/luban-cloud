@@ -16,5 +16,8 @@ public interface UserAccountInfoRemote {
      */
     @GetMapping(value = "/users/feign/isPermission")
     boolean hasPermission(@RequestParam("userId") String userId,@RequestParam("permission") PermissionEnum permission);
+    @GetMapping(value = "/ldap/feign/isPermission")
+    boolean ldapHasPermission(@RequestParam("userId") String userId,@RequestParam("permission") PermissionEnum permission);
+
 
 }

@@ -1,0 +1,102 @@
+# 基础结构
+dn: dc=jedeiah,dc=com
+objectClass: top
+objectClass: domain
+dc: jedeiah
+
+# 组织单位
+dn: ou=People,dc=jedeiah,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: People
+
+dn: ou=Roles,dc=jedeiah,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: Roles
+
+dn: ou=Permissions,dc=jedeiah,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: Permissions
+
+# 普通用户
+dn: uid=ldap_user_1,ou=People,dc=jedeiah,dc=com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+cn: ldap_user_1
+sn: User
+uid: ldap_user_1
+userPassword: {SHA}lwllveHIUg6MsmEwwo0h5TKQitY=
+
+# 编辑员用户
+dn: uid=ldap_editor_1,ou=People,dc=jedeiah,dc=com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+cn: ldap_editor_1
+sn: Editor
+uid: ldap_editor_1
+userPassword: {SHA}+8yRCbMPKe4VQBC6OeQ584/JhsM=
+
+# 管理员用户
+dn: uid=ldap_adm_1,ou=People,dc=jedeiah,dc=com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+cn: ldap_adm_1
+sn: Admin
+uid: ldap_adm_1
+userPassword: {SHA}GyMJ0qQx4zGEJ/5yZjdmG93FXUA=
+
+# 角色定义
+dn: cn=USER,ou=Roles,dc=jedeiah,dc=com
+objectClass: top
+objectClass: groupOfNames
+cn: USER
+member: uid=ldap_user_1,ou=People,dc=jedeiah,dc=com
+
+dn: cn=EDITOR,ou=Roles,dc=jedeiah,dc=com
+objectClass: top
+objectClass: groupOfNames
+cn: EDITOR
+member: uid=ldap_editor_1,ou=People,dc=jedeiah,dc=com
+
+dn: cn=PRODUCT_ADMIN,ou=Roles,dc=jedeiah,dc=com
+objectClass: top
+objectClass: groupOfNames
+cn: PRODUCT_ADMIN
+member: uid=ldap_adm_1,ou=People,dc=jedeiah,dc=com
+
+# 权限定义
+dn: cn=CREATE,ou=Permissions,dc=jedeiah,dc=com
+objectClass: top
+objectClass: groupOfNames
+cn: CREATE
+member: cn=EDITOR,ou=Roles,dc=jedeiah,dc=com
+member: cn=PRODUCT_ADMIN,ou=Roles,dc=jedeiah,dc=com
+
+dn: cn=DELETE,ou=Permissions,dc=jedeiah,dc=com
+objectClass: top
+objectClass: groupOfNames
+cn: DELETE
+member: cn=EDITOR,ou=Roles,dc=jedeiah,dc=com
+member: cn=PRODUCT_ADMIN,ou=Roles,dc=jedeiah,dc=com
+
+dn: cn=UPDATE,ou=Permissions,dc=jedeiah,dc=com
+objectClass: top
+objectClass: groupOfNames
+cn: UPDATE
+member: cn=EDITOR,ou=Roles,dc=jedeiah,dc=com
+member: cn=PRODUCT_ADMIN,ou=Roles,dc=jedeiah,dc=com
+
+dn: cn=READ,ou=Permissions,dc=jedeiah,dc=com
+objectClass: top
+objectClass: groupOfNames
+cn: READ
+member: cn=USER,ou=Roles,dc=jedeiah,dc=com
+member: cn=PRODUCT_ADMIN,ou=Roles,dc=jedeiah,dc=com

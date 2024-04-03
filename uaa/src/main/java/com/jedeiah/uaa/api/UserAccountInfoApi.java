@@ -3,6 +3,7 @@ package com.jedeiah.uaa.api;
 import com.jedeiah.commons.enums.PermissionEnum;
 import com.jedeiah.uaa.api.feign.UserAccountInfoRemote;
 import com.jedeiah.uaa.service.UserAccountInfoService;
+import com.jedeiah.uaa.service.ldap.LdapUsersService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,19 @@ public class UserAccountInfoApi implements UserAccountInfoRemote {
 
     @Autowired
     private UserAccountInfoService userAccountInfoService;
+    @Autowired
+    private LdapUsersService ldapUsersService;
+
     @Operation(summary = "查看用户是否具有权限")
     @Override
     public boolean hasPermission(String userId, PermissionEnum permission) {
-        return userAccountInfoService.hasPermission(userId,permission);
+        return userAccountInfoService.hasPermission(userId, permission);
+    }
+
+
+    @Operation(summary = "查看用户是否具有权限")
+    @Override
+    public boolean ldapHasPermission(String userId, PermissionEnum permission) {
+        return ldapUsersService.hasPermission(userId, permission);
     }
 }

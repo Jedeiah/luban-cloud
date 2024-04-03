@@ -64,7 +64,12 @@
     <input type="text" id="username" placeholder="账号" required>
     <input type="password" id="password" placeholder="密码" required>
     <button type="submit">登陆</button>
+    <div id="loginMethodSwitcher">
+        <label><input type="radio" name="loginMethod" value="jwt" checked> JWT 登录</label>
+        <label><input type="radio" name="loginMethod" value="ldap"> LDAP 登录</label>
+    </div>
 </form>
+
 <p class="register-link">还没有账号? <a href="register.html">注册</a>.</p>
 <a href="#" id="githubAuthLink">进行GitHub授权</a>
 <script>
@@ -72,9 +77,21 @@
         event.preventDefault();
         var username = document.getElementById('username').value;
         var password = document.getElementById('password').value;
+        var loginMethod = document.querySelector('input[name="loginMethod"]:checked').value;
 
+        var loginUrl;
+        switch (loginMethod) {
+            case 'jwt':
+                loginUrl = 'http://192.168.0.151:8890/api/uaa/users/login/jwt?username=' + encodeURIComponent(username) + '&password=' + encodeURIComponent(password);
+                break;
+            case 'ldap':
+                loginUrl = 'http://192.168.0.151:8890/api/uaa/ldap/login?username=' + encodeURIComponent(username) + '&password=' + encodeURIComponent(password);
+                break;
+            default:
+                throw new Error('Invalid login method selected.');
+        }
         // 使用Fetch API发送登录请求
-        fetch('http://192.168.0.151:8890/api/uaa/users/login/jwt?username=' + encodeURIComponent(username) + '&password=' + encodeURIComponent(password), {
+        fetch(loginUrl, {
             method: 'GET'
         }).then(fetchCallback).then(data => {
             if (!data.success) {

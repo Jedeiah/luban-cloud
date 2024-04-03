@@ -29,7 +29,7 @@ public class AuthorizeFilter implements GlobalFilter {
         ServerHttpResponse response = exchange.getResponse();
 
         String path = request.getURI().getPath();
-        if (path.startsWith("/users/login") || path.startsWith("/users/add") || path.startsWith("/oauth2")) {
+        if (path.startsWith("/users/login") || path.startsWith("/ldap/login")|| path.startsWith("/users/add") || path.startsWith("/oauth2")) {
             return chain.filter(exchange);
         }
 

@@ -1,31 +1,18 @@
 package com.jedeiah.uaa.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jedeiah.commons.enums.PermissionEnum;
-import com.jedeiah.commons.utls.JwtTokenUtil;
-import com.jedeiah.commons.vo.RespVo;
 import com.jedeiah.uaa.entity.RolePermissions;
 import com.jedeiah.uaa.entity.UserRoles;
-import com.jedeiah.uaa.entity.Users;
 import com.jedeiah.uaa.mapper.PermissionsMapper;
 import com.jedeiah.uaa.mapper.RolePermissionsMapper;
 import com.jedeiah.uaa.mapper.UserRolesMapper;
-import com.jedeiah.uaa.mapper.UsersMapper;
 import com.jedeiah.uaa.service.UserAccountInfoService;
-import com.jedeiah.uaa.service.UsersService;
 import com.jedeiah.uaa.utils.RedisUtil;
-import com.jedeiah.uaa.vo.UsersVo;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -66,7 +53,7 @@ public class UserAccountInfoServiceImpl implements UserAccountInfoService {
             return false;
         }
         List<PermissionEnum> permissionsList = rolePermissionsList.stream().map(RolePermissions::getPermissionName).collect(Collectors.toList());
-        redisUtil.set(redisKey, permissionsList);
+        redisUtil.set(redisKey, permissionsList, 60 * 60 * 24);
         return permissionsList.contains(permission);
 
     }

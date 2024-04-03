@@ -29,15 +29,17 @@
 前端是简单的html+js实现的，后端是jwt会话token实现的登陆认证，自定义注解@PermissionRequired+aop实现接口层面权限控制。
 功能有登陆、注册，产品的CRUD
 
- | 服务名称    | 账号密码               | 端口        |
-  |---------|--------------------|-----------|
-  | MySQL   | root:jedeiah       | 3306      |
-  | Redis   | jedeiah（密码）        | 6379      |
-  | Nacos   | nacos:nacosjedeiah | 8848、9848 |
-  | Gateway | -                  | 8890      |
- | product | -                  | 8889      |
- | uaa     | -                  | 8888      |
-  | Nginx   | -                  | 8080      |
+ | 服务名称           | 账号密码                               | 说明                     | 端口        |
+  |----------------|------------------------------------|------------------------|-----------|
+  | MySQL          | root:jedeiah 、nacos:nacosjedeiah   | 业务服务连接账号、nacos服务连接账号   | 3306      |
+  | Redis          | jedeiah（密码）                        | redis登陆                | 6379      |
+  | Nacos          | nacos:nacosjedeiah                 | nacos-web管理登陆          | 8848、9848 |
+  | Gateway        | -                                  | -                      | 8890      |
+ | uaa            | -                                  | -                      | 8889      |
+ | product        | -                                  | -                      | 8888      |
+  | Nginx          | -                                  | -                      | 8080      |
+  | ldap-server    | cn=admin,dc=jedeiah,dc=com:jedeiah | 管理员账号                  | 389、636   |
+  | ldap-admin-web | -                                  | 可访问web端 http://ip:port | 8091      |
   
 
 
