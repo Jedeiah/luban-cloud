@@ -44,7 +44,7 @@
         var code = searchParams.get('code');
 
         if (code) {
-            fetch('http://localhost:8890/oauth2/callback/github/authorizationJwt/token?code=' + encodeURIComponent(code), {
+            fetch('http://192.168.0.151:8890/oauth2/callback/github/authorizationJwt/token?code=' + encodeURIComponent(code), {
                 method: 'GET'
             }).then(fetchCallback).then(data => {
                 if (!data.success) {

@@ -45,13 +45,14 @@
 1. 自行安装docker、docker-compose
 2. 安装maven
 3. 克隆项目仓库：`git clone https://github.com/Jedeiah/luban-cloud.git`
-4. 进入项目目录：`cd spring-boot-project`
-5. 修改项目相关ip：项目全局替换 localhost 为 你的机器ip （除.md、java文件。。。）
-6. 修改mysql初始化sql文件中nacos数据库连接ip，`./doc/mysql8/nacos.sql`，可同上5，项目全局替换 192.168.0.151 为 你的机器ip
-7. install项目：`mvn clean install -f ./pom.xml`
-8. 进入项目部署目录：`cd ./doc`
-9. 若要远程部署，则将当前目录下所有文件cp至服务器
-10. 一键部署启动：`docer-compose -f ./docker-compose.yml -d --build`
+4. 进入项目目录：`cd luban-cloud`
+5. 修改项目相关ip：项目全局替换 192.168.0.151 为 your_ip ！！！
+6. install项目：`mvn clean install -f ./pom.xml`
+7. 进入项目部署目录：`cd ./doc`
+8. 若要远程部署，则将当前目录下所有文件cp至服务器
+9. 一键部署启动：`docker-compose -f ./docker-compose.yml up -d --build`
+10. 登陆Nacos Web，修改uaa服务的配置文件中github oauth相关信息。
+11. 登陆个人github，`https://github.com/settings/developers` 新建修改 Oauth Apps 对应配置 
 
 ## 效果
 http://your_ip:8090/login.html
@@ -60,22 +61,25 @@ http://your_ip:8090/login.html
 
 1. 获取会话token（登陆）“**响应体 data 参数**”，需要传请求参数 **username**、**password**：
     ```bash
-       curl -X GET 'http://localhost:8890/api/uaa/users/login/jwt?username=user_1&password=user_1' -H 'Accept: */*'
+       curl -X GET 'http://your_ip:8890/api/uaa/users/login/jwt?username=user_1&password=user_1' -H 'Accept: */*'
     ```
 2. 根据会话token，对产品CRUD
-   1. 新增（需要传参数：**请求头"：AuthorizationJwt**、**请求体：{name}**）： 
+   - 新增（需要传参数：**请求头"：AuthorizationJwt**、**请求体：{name}**）： 
     ```bash
-        curl -X POST 'http://localhost:8890/api/product/products/add' -H 'AuthorizationJwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1MWVmNWIzOS02Njk5LTQyNDMtYjA5Yi01YmZhMjUwMTM2NzYiLCJqdGkiOiI3OGQ3ODM2YS03MGY1LTQ2ZjItYmFmYy00MmNmM2Q5ZDVjOTgiLCJleHAiOjE3MTE4OTMwMjQsImlhdCI6MTcxMTg5MjcyNCwic3ViIjoibG9naW5BdXRoZW50aWNhdGlvbiIsImlzcyI6ImNoaiJ9.RxDCyjkcDhXO7FL3dXYb_8PkXQGJWGp15nKN-5ooS8o' -H'Content-Type: application/json' -H 'Accept: */*' -d '{"name": "product-11"}'
+        curl -X POST 'http://your_ip:8890/api/product/products/add' -H 'AuthorizationJwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1MWVmNWIzOS02Njk5LTQyNDMtYjA5Yi01YmZhMjUwMTM2NzYiLCJqdGkiOiI3OGQ3ODM2YS03MGY1LTQ2ZjItYmFmYy00MmNmM2Q5ZDVjOTgiLCJleHAiOjE3MTE4OTMwMjQsImlhdCI6MTcxMTg5MjcyNCwic3ViIjoibG9naW5BdXRoZW50aWNhdGlvbiIsImlzcyI6ImNoaiJ9.RxDCyjkcDhXO7FL3dXYb_8PkXQGJWGp15nKN-5ooS8o' -H'Content-Type: application/json' -H 'Accept: */*' -d '{"name": "product-11"}'
     ```
-   2. 修改（需要传参数：**请求头：AuthorizationJwt**、**请求体：{id、name}**）：
+   - 修改（需要传参数：**请求头：AuthorizationJwt**、**请求体：{id、name}**）：
     ```bash
-        curl -X PUT 'http://localhost:8890/api/product/products/update' -H 'AuthorizationJwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1MWVmNWIzOS02Njk5LTQyNDMtYjA5Yi01YmZhMjUwMTM2NzYiLCJqdGkiOiI3OGQ3ODM2YS03MGY1LTQ2ZjItYmFmYy00MmNmM2Q5ZDVjOTgiLCJleHAiOjE3MTE4OTMwMjQsImlhdCI6MTcxMTg5MjcyNCwic3ViIjoibG9naW5BdXRoZW50aWNhdGlvbiIsImlzcyI6ImNoaiJ9.RxDCyjkcDhXO7FL3dXYb_8PkXQGJWGp15nKN-5ooS8o' -H'Content-Type: application/json' -H 'Accept: */*' -d '{"id": 0,"name": ""}'
+        curl -X PUT 'http://your_ip:8890/api/product/products/update' -H 'AuthorizationJwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1MWVmNWIzOS02Njk5LTQyNDMtYjA5Yi01YmZhMjUwMTM2NzYiLCJqdGkiOiI3OGQ3ODM2YS03MGY1LTQ2ZjItYmFmYy00MmNmM2Q5ZDVjOTgiLCJleHAiOjE3MTE4OTMwMjQsImlhdCI6MTcxMTg5MjcyNCwic3ViIjoibG9naW5BdXRoZW50aWNhdGlvbiIsImlzcyI6ImNoaiJ9.RxDCyjkcDhXO7FL3dXYb_8PkXQGJWGp15nKN-5ooS8o' -H'Content-Type: application/json' -H 'Accept: */*' -d '{"id": 0,"name": ""}'
     ```
-   3. 删除（需要传参数：**请求头：AuthorizationJwt**、**请求行拼接productId：**）：
+   - 删除（需要传参数：**请求头：AuthorizationJwt**、**请求行拼接productId：**）：
     ```bash
-        curl -X DELETE 'http://localhost:8890/api/product/products/delete/11' -H 'AuthorizationJwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJkYmMwMGVkNC01M2Q3LTQ1NTAtODBhMi0zYTQ4OWQ2NmFlNTMiLCJqdGkiOiJmYWY2YzdhMS1lNWI5LTQ5NDAtYmVhOS1jYTkwYzdlN2FiYzUiLCJleHAiOjE3MTE4OTQ4NDYsImlhdCI6MTcxMTg5NDU0Niwic3ViIjoibG9naW5BdXRoZW50aWNhdGlvbiIsImlzcyI6ImNoaiJ9.oOtaSMTIHdmS_NWog5wuvxmA_cJeCEI8NbloEHvXtUs' -H 'Accept: */*'
+        curl -X DELETE 'http://your_ip:8890/api/product/products/delete/11' -H 'AuthorizationJwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJkYmMwMGVkNC01M2Q3LTQ1NTAtODBhMi0zYTQ4OWQ2NmFlNTMiLCJqdGkiOiJmYWY2YzdhMS1lNWI5LTQ5NDAtYmVhOS1jYTkwYzdlN2FiYzUiLCJleHAiOjE3MTE4OTQ4NDYsImlhdCI6MTcxMTg5NDU0Niwic3ViIjoibG9naW5BdXRoZW50aWNhdGlvbiIsImlzcyI6ImNoaiJ9.oOtaSMTIHdmS_NWog5wuvxmA_cJeCEI8NbloEHvXtUs' -H 'Accept: */*'
     ```
-   4. 查询（需要传参数：**请求头：AuthorizationJwt**）：
+   - 查询（需要传参数：**请求头：AuthorizationJwt**）：
     ```bash
-        curl -X GET 'http://localhost:8890/api/product/products/listAll' -H 'AuthorizationJwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1MWVmNWIzOS02Njk5LTQyNDMtYjA5Yi01YmZhMjUwMTM2NzYiLCJqdGkiOiI3OGQ3ODM2YS03MGY1LTQ2ZjItYmFmYy00MmNmM2Q5ZDVjOTgiLCJleHAiOjE3MTE4OTMwMjQsImlhdCI6MTcxMTg5MjcyNCwic3ViIjoibG9naW5BdXRoZW50aWNhdGlvbiIsImlzcyI6ImNoaiJ9.RxDCyjkcDhXO7FL3dXYb_8PkXQGJWGp15nKN-5ooS8o' -H 'Accept: */*'
+        curl -X GET 'http://your_ip:8890/api/product/products/listAll' -H 'AuthorizationJwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1MWVmNWIzOS02Njk5LTQyNDMtYjA5Yi01YmZhMjUwMTM2NzYiLCJqdGkiOiI3OGQ3ODM2YS03MGY1LTQ2ZjItYmFmYy00MmNmM2Q5ZDVjOTgiLCJleHAiOjE3MTE4OTMwMjQsImlhdCI6MTcxMTg5MjcyNCwic3ViIjoibG9naW5BdXRoZW50aWNhdGlvbiIsImlzcyI6ImNoaiJ9.RxDCyjkcDhXO7FL3dXYb_8PkXQGJWGp15nKN-5ooS8o' -H 'Accept: */*'
     ```
+## todo
+- 新增、修改，页面
+- ldap

@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function fetchAndDisplayProducts() {
         var authorizationJwt = getCookie('AuthorizationJwt');
         // 使用Fetch API发起GET请求，并设置请求头
-        fetch('http://localhost:8890/api/product/products/listAll', {
+        fetch('http://192.168.0.151:8890/api/product/products/listAll', {
             headers: {
                 'AuthorizationJwt': authorizationJwt
             }
@@ -71,7 +71,7 @@ function logout(name) {
 }
 function deleteProduct(productId) {
     // 使用 Fetch API 发起 DELETE 请求
-    fetch(`http://localhost:8890/api/product/products/delete/${productId}`, {
+    fetch(`http://192.168.0.151:8890/api/product/products/delete/${productId}`, {
         method: 'DELETE', // 设置请求方法为 DELETE
         headers: {
             'AuthorizationJwt': getCookie('AuthorizationJwt') // 设置请求头
@@ -108,7 +108,7 @@ function editProduct(productId) {
 function updateProduct(productId, newName) {
 
     // 使用 Fetch API 发起 PUT 请求
-    fetch(`http://localhost:8890/api/product/products/update/${productId}`, {
+    fetch(`http://192.168.0.151:8890/api/product/products/update/${productId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
