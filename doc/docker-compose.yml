@@ -144,7 +144,7 @@ services:
       - ./openldap/ldap:/var/lib/ldap # 存储LDAP数据库文件，包括用户数据、配置和日志等。
       - ./openldap/slapd.d:/etc/ldap/slapd.d # OpenLDAP配置目录，用于存储LDAP服务器的配置文件
       - ./openldap/certs:/container/service/lapd/assets/certs # OpenLDAP证书目录，用于存储SSL/TLS证书和密钥。
-      - ./openldap/initdb:/docker-entrypoint-initdb.d:ro # todo 自动初始化
+      - ./openldap/initdb/init.ldif:/docker-entrypoint-initdb.d/init.ldif:ro # 初始化数据
     ports:
       - "389:389"
       - "636:636"

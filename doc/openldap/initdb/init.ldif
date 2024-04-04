@@ -1,8 +1,8 @@
 # 基础结构
-dn: dc=jedeiah,dc=com
-objectClass: top
-objectClass: domain
-dc: jedeiah
+# dn: dc=jedeiah,dc=com
+# objectClass: top
+# objectClass: domain
+# dc: jedeiah
 
 # 组织单位
 dn: ou=People,dc=jedeiah,dc=com
