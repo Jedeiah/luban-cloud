@@ -68,8 +68,8 @@ public class JwtTokenUtil {
                 .add("alg", "HS256")
                 .and()
                 // 设置自定义负载信息payload
-                .claim(HeaderParamEnum.USER_ID.name(), userId)
-                .claim(HeaderParamEnum.LOGIN_TYPE.name(), loginTypeEnum)
+                .claim(HeaderParamEnum.USER_ID.value, userId)
+                .claim(HeaderParamEnum.LOGIN_TYPE.value, loginTypeEnum)
                 // 令牌ID
                 .id(uuid)
                 // 过期日期

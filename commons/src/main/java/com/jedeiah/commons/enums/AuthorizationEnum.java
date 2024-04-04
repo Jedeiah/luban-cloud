@@ -5,9 +5,9 @@ package com.jedeiah.commons.enums;
 public enum AuthorizationEnum {
     //jwt token
     JWT_TOKEN("AuthorizationJwt");
-    private final String name;
+    public final String value;
 
-    AuthorizationEnum(String name) {
-        this.name = name;
+    AuthorizationEnum(String value) {
+        this.value = value;
     }
 }

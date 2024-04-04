@@ -29,10 +29,10 @@ public class PermissionAspect {
         Assert.notNull(attributes, "系统异常");
         HttpServletRequest request = attributes.getRequest();
         // 从请求头中获取 user_id
-        String userId = request.getHeader(HeaderParamEnum.USER_ID.name());
+        String userId = request.getHeader(HeaderParamEnum.USER_ID.value);
         Assert.isTrue(StringUtils.hasLength(userId), "userId不能为空");
-        LoginTypeEnum loginType = LoginTypeEnum.valueOf(request.getHeader(HeaderParamEnum.LOGIN_TYPE.name()));
-        Assert.isNull(loginType, "loginType不能为空");
+        LoginTypeEnum loginType = LoginTypeEnum.valueOf(request.getHeader(HeaderParamEnum.LOGIN_TYPE.value));
+        Assert.notNull(loginType, "loginType不能为空");
         PermissionEnum operation = permissionRequired.operation();
         boolean hasPermission = switch (loginType) {
             case USER -> userAccountInfoRemote.hasPermission(userId, operation);

@@ -27,7 +27,7 @@ public class DocAutoConfiguration {
     public OpenAPI openApi() {
         return new OpenAPI()
                 .components(
-                        new Components().addSecuritySchemes(AuthorizationEnum.JWT_TOKEN.name(),
+                        new Components().addSecuritySchemes(AuthorizationEnum.JWT_TOKEN.value,
                                 new SecurityScheme()
                                         .type(SecurityScheme.Type.APIKEY)
                                         .name("JWT")

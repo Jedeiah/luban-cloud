@@ -42,8 +42,8 @@ public class AuthorizeFilter implements GlobalFilter {
 
         return parseToken(token)
                 .flatMap(claims -> {
-                    request.mutate().header(HeaderParamEnum.USER_ID.name(), (String) claims.get(HeaderParamEnum.USER_ID.name())).build();
-                    request.mutate().header(HeaderParamEnum.LOGIN_TYPE.name(), (String) claims.get(HeaderParamEnum.LOGIN_TYPE.name())).build();
+                    request.mutate().header(HeaderParamEnum.USER_ID.value, (String) claims.get(HeaderParamEnum.USER_ID.value)).build();
+                    request.mutate().header(HeaderParamEnum.LOGIN_TYPE.value, (String) claims.get(HeaderParamEnum.LOGIN_TYPE.value)).build();
                     return chain.filter(exchange);
                 })
                 .onErrorResume(e -> {
@@ -61,12 +61,12 @@ public class AuthorizeFilter implements GlobalFilter {
     }
 
     private String getTokenFromRequest(ServerHttpRequest request) {
-        String token = request.getHeaders().getFirst(AuthorizationEnum.JWT_TOKEN.name());
+        String token = request.getHeaders().getFirst(AuthorizationEnum.JWT_TOKEN.value);
         if (!StringUtils.hasLength(token)) {
-            token = request.getQueryParams().getFirst(AuthorizationEnum.JWT_TOKEN.name());
+            token = request.getQueryParams().getFirst(AuthorizationEnum.JWT_TOKEN.value);
         }
         if (!StringUtils.hasLength(token)) {
-            HttpCookie httCcookie = request.getCookies().getFirst(AuthorizationEnum.JWT_TOKEN.name());
+            HttpCookie httCcookie = request.getCookies().getFirst(AuthorizationEnum.JWT_TOKEN.value);
             if (httCcookie != null) {
                 token = httCcookie.getValue();
             }
