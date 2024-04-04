@@ -57,7 +57,7 @@ services:
         condition: service_healthy
     environment:
       # JVM内存设置
-      - JVM_XMS=128m # JVM初始堆内存大小
+      - JVM_XMS=512m # JVM初始堆内存大小
       - JVM_XMX=512m # JVM最大堆内存大小
       # Nacos服务运行模式
       - PREFER_HOST_MODE=ip:port:namespace # Nacos服务的主机名模式
