@@ -1,5 +1,6 @@
 package com.jedeiah.product.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.jedeiah.product.entity.Products;
 import com.jedeiah.product.mapper.ProductsMapper;
 import com.jedeiah.product.service.ProductsService;
@@ -41,6 +42,8 @@ public class ProductsServiceImpl extends ServiceImpl<ProductsMapper, Products> i
 
     @Override
     public void add(ProductsVo productsVo) {
+        Products one = this.getOne(new LambdaQueryWrapper<Products>().eq(Products::getName, productsVo.getName()));
+        Assert.isNull(one,"产品已经存在");
         Products products = new Products();
         products.setName(productsVo.getName());
         productsMapper.insert(products);
@@ -49,7 +52,7 @@ public class ProductsServiceImpl extends ServiceImpl<ProductsMapper, Products> i
     @Override
     public int modify(ProductsVo productsVo) {
         Products currentProducts = productsMapper.selectById(productsVo.getId());
-        Assert.notNull(currentProducts,"用户不存在");
+        Assert.notNull(currentProducts,"产品不存在");
         currentProducts.setName(productsVo.getName());
         return productsMapper.updateById(currentProducts);
     }
