@@ -1,13 +1,13 @@
 package com.jedeiah.uaa.controller;
 
-import com.jedeiah.commons.utls.JwtTokenUtil;
-import com.jedeiah.commons.vo.RespVo;
-import com.jedeiah.uaa.vo.UsersVo;
-
+import com.jedeiah.commons.enums.LoginTypeEnum;
 import com.jedeiah.commons.group.AddGroup;
 import com.jedeiah.commons.group.UpdateGroup;
+import com.jedeiah.commons.utls.JwtTokenUtil;
+import com.jedeiah.commons.vo.RespVo;
 import com.jedeiah.uaa.entity.Users;
 import com.jedeiah.uaa.service.UsersService;
+import com.jedeiah.uaa.vo.UsersVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotBlank;
@@ -33,7 +33,7 @@ public class UsersController {
     @GetMapping(value = "/jwtToken")
     @Operation(summary = "获取token")
     public RespVo<String> getJwtToken(String usersId) {
-        return RespVo.success(JwtTokenUtil.genAccessToken(usersId));
+        return RespVo.success(JwtTokenUtil.genAccessToken(usersId, LoginTypeEnum.USER));
     }
 
 

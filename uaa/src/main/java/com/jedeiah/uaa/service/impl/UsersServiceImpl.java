@@ -2,6 +2,7 @@ package com.jedeiah.uaa.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.jedeiah.commons.enums.LoginTypeEnum;
 import com.jedeiah.commons.utls.JwtTokenUtil;
 import com.jedeiah.commons.vo.RespVo;
 import com.jedeiah.uaa.entity.UserRoles;
@@ -73,7 +74,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
 
     @Override
     public int modify(Users users) {
-        
+
         Users currentUsers = usersMapper.selectById(users.getId());
         return usersMapper.updateById(users);
     }
@@ -100,7 +101,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         boolean checkpw = user.getPassword().equals(password);
         Assert.isTrue(checkpw, "账号或者密码错误");
         //生成令牌
-        String jwtToken = JwtTokenUtil.genAccessToken(user.getUserId());
+        String jwtToken = JwtTokenUtil.genAccessToken(user.getUserId(), LoginTypeEnum.USER);
         return RespVo.success(jwtToken);
     }
 
@@ -112,7 +113,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         Assert.isTrue(StringUtils.hasLength(username), "授权异常，请稍后重试");
         Users user = this.getOne(new LambdaQueryWrapper<Users>().eq(Users::getUsername, username).eq(Users::isDeleted, false).last(" limit 1"));
         if (user != null) {
-            return JwtTokenUtil.genAccessToken(user.getUserId());
+            return JwtTokenUtil.genAccessToken(user.getUserId(), LoginTypeEnum.USER);
         }
         Users users = new Users();
         users.setUserId(userId);
@@ -122,7 +123,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         UserRoles.UserRolesBuilder userRolesBuilder = UserRoles.builder().userId(users.getUserId()).roleName("EDITOR");
         usersMapper.insert(users);
         userRolesMapper.insert(userRolesBuilder.build());
-        return JwtTokenUtil.genAccessToken(userId);
+        return JwtTokenUtil.genAccessToken(userId, LoginTypeEnum.USER);
     }
 
 }

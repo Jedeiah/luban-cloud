@@ -1,6 +1,6 @@
 package com.jedeiah.doc;
 
-import com.jedeiah.commons.enums.TokenEnum;
+import com.jedeiah.commons.enums.AuthorizationEnum;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
@@ -27,7 +27,7 @@ public class DocAutoConfiguration {
     public OpenAPI openApi() {
         return new OpenAPI()
                 .components(
-                        new Components().addSecuritySchemes(TokenEnum.JWT_TOKEN.name(),
+                        new Components().addSecuritySchemes(AuthorizationEnum.JWT_TOKEN.name(),
                                 new SecurityScheme()
                                         .type(SecurityScheme.Type.APIKEY)
                                         .name("JWT")

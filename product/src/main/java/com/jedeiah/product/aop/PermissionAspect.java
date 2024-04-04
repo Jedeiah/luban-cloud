@@ -1,5 +1,7 @@
 package com.jedeiah.product.aop;
 
+import com.jedeiah.commons.enums.HeaderParamEnum;
+import com.jedeiah.commons.enums.LoginTypeEnum;
 import com.jedeiah.commons.enums.PermissionEnum;
 import com.jedeiah.uaa.api.feign.UserAccountInfoRemote;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,6 +15,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+
 @Aspect
 @Component
 public class PermissionAspect {
@@ -21,19 +24,20 @@ public class PermissionAspect {
     private UserAccountInfoRemote userAccountInfoRemote;
 
     @Before("@annotation(permissionRequired)")
-    public void checkPermission(JoinPoint joinPoint, PermissionRequired permissionRequired) throws Exception {
-        // 获取当前请求中的 user_id
-        String userId = getCurrentUserIdFromHeader();
-
-        // 根据 userId 和操作类型查询数据库权限
+    public void checkPermission(JoinPoint joinPoint, PermissionRequired permissionRequired){
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        Assert.notNull(attributes, "系统异常");
+        HttpServletRequest request = attributes.getRequest();
+        // 从请求头中获取 user_id
+        String userId = request.getHeader(HeaderParamEnum.USER_ID.name());
+        Assert.isTrue(StringUtils.hasLength(userId), "userId不能为空");
+        LoginTypeEnum loginType = LoginTypeEnum.valueOf(request.getHeader(HeaderParamEnum.LOGIN_TYPE.name()));
+        Assert.isNull(loginType, "loginType不能为空");
         PermissionEnum operation = permissionRequired.operation();
-        boolean hasPermission = userAccountInfoRemote.hasPermission(userId, operation);
-        //todo 换种方式
-        if (hasPermission) {
-            return;
-        }
-
-        hasPermission = userAccountInfoRemote.ldapHasPermission(userId, operation);
+        boolean hasPermission = switch (loginType) {
+            case USER -> userAccountInfoRemote.hasPermission(userId, operation);
+            case LDAP -> userAccountInfoRemote.ldapHasPermission(userId, operation);
+        };
         if (hasPermission) {
             return;
         }
@@ -42,15 +46,5 @@ public class PermissionAspect {
         Assert.isTrue(PermissionEnum.UPDATE != operation, "您没有修改权限！");
         Assert.isTrue(PermissionEnum.READ != operation, "您没有查询权限！");
 
-    }
-
-    private String getCurrentUserIdFromHeader() {
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        Assert.notNull(attributes, "系统异常");
-        HttpServletRequest request = attributes.getRequest();
-        // 从请求头中获取 user_id
-        String userId = request.getHeader("userId");
-        Assert.isTrue(StringUtils.hasLength(userId), "userId不能为空");
-        return userId;
     }
 }

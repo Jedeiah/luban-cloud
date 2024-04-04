@@ -2,12 +2,14 @@ package com.jedeiah.commons.enums;
 
 
 
-public enum TokenEnum {
+public enum HeaderParamEnum {
     //jwt token
-    JWT_TOKEN("AuthorizationJwt");
+    USER_ID("userId"),
+    LOGIN_TYPE("loginType");
+
     private final String name;
 
-    TokenEnum(String name) {
+    HeaderParamEnum(String name) {
         this.name = name;
     }
 }

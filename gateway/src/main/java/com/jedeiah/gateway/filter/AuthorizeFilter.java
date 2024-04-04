@@ -1,5 +1,7 @@
 package com.jedeiah.gateway.filter;
 
+import com.jedeiah.commons.enums.AuthorizationEnum;
+import com.jedeiah.commons.enums.HeaderParamEnum;
 import com.jedeiah.commons.utls.JwtTokenUtil;
 import io.jsonwebtoken.Claims;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -21,7 +23,6 @@ import reactor.core.publisher.Mono;
 @Order(0)
 public class AuthorizeFilter implements GlobalFilter {
 
-    private static final String AUTHORIZE_TOKEN_JWT = "AuthorizationJwt";
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -29,7 +30,7 @@ public class AuthorizeFilter implements GlobalFilter {
         ServerHttpResponse response = exchange.getResponse();
 
         String path = request.getURI().getPath();
-        if (path.startsWith("/users/login") || path.startsWith("/ldap/login")|| path.startsWith("/users/add") || path.startsWith("/oauth2")) {
+        if (path.startsWith("/users/login") || path.startsWith("/ldap/login") || path.startsWith("/users/add") || path.startsWith("/oauth2")) {
             return chain.filter(exchange);
         }
 
@@ -41,7 +42,8 @@ public class AuthorizeFilter implements GlobalFilter {
 
         return parseToken(token)
                 .flatMap(claims -> {
-                    request.mutate().header("userId", (String) claims.get("userId")).build();
+                    request.mutate().header(HeaderParamEnum.USER_ID.name(), (String) claims.get(HeaderParamEnum.USER_ID.name())).build();
+                    request.mutate().header(HeaderParamEnum.LOGIN_TYPE.name(), (String) claims.get(HeaderParamEnum.LOGIN_TYPE.name())).build();
                     return chain.filter(exchange);
                 })
                 .onErrorResume(e -> {
@@ -59,12 +61,12 @@ public class AuthorizeFilter implements GlobalFilter {
     }
 
     private String getTokenFromRequest(ServerHttpRequest request) {
-        String token = request.getHeaders().getFirst(AUTHORIZE_TOKEN_JWT);
+        String token = request.getHeaders().getFirst(AuthorizationEnum.JWT_TOKEN.name());
         if (!StringUtils.hasLength(token)) {
-            token = request.getQueryParams().getFirst(AUTHORIZE_TOKEN_JWT);
+            token = request.getQueryParams().getFirst(AuthorizationEnum.JWT_TOKEN.name());
         }
         if (!StringUtils.hasLength(token)) {
-            HttpCookie httCcookie = request.getCookies().getFirst(AUTHORIZE_TOKEN_JWT);
+            HttpCookie httCcookie = request.getCookies().getFirst(AuthorizationEnum.JWT_TOKEN.name());
             if (httCcookie != null) {
                 token = httCcookie.getValue();
             }

@@ -1,16 +1,15 @@
 package com.jedeiah.commons.utls;
 
+import com.jedeiah.commons.enums.HeaderParamEnum;
+import com.jedeiah.commons.enums.LoginTypeEnum;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwsHeader;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecureDigestAlgorithm;
-import org.springframework.util.NumberUtils;
-import org.springframework.util.ObjectUtils;
 
 import javax.crypto.SecretKey;
-import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Date;
 import java.util.UUID;
@@ -54,7 +53,7 @@ public class JwtTokenUtil {
     iat: jwt的签发时间
     jti: jwt的唯一身份标识，主要用来作为一次性token,从而回避重放攻击
      */
-    public static String genAccessToken(String userId, Integer... expireSeconds) {
+    public static String genAccessToken(String userId, LoginTypeEnum loginTypeEnum, Integer... expireSeconds) {
         // 令牌id
         String uuid = UUID.randomUUID().toString();
         // 如果提供了过期时间参数，则使用提供的值
@@ -69,7 +68,8 @@ public class JwtTokenUtil {
                 .add("alg", "HS256")
                 .and()
                 // 设置自定义负载信息payload
-                .claim("userId", userId)
+                .claim(HeaderParamEnum.USER_ID.name(), userId)
+                .claim(HeaderParamEnum.LOGIN_TYPE.name(), loginTypeEnum)
                 // 令牌ID
                 .id(uuid)
                 // 过期日期

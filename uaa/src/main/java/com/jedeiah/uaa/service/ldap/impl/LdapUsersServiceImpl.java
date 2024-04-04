@@ -1,5 +1,6 @@
 package com.jedeiah.uaa.service.ldap.impl;
 
+import com.jedeiah.commons.enums.LoginTypeEnum;
 import com.jedeiah.commons.enums.PermissionEnum;
 import com.jedeiah.commons.utls.JwtTokenUtil;
 import com.jedeiah.commons.vo.RespVo;
@@ -57,7 +58,7 @@ public class LdapUsersServiceImpl implements LdapUsersService {
             throw new RuntimeException("密码错误");
         }
         //生成令牌
-        String jwtToken = JwtTokenUtil.genAccessToken(user.getUid());
+        String jwtToken = JwtTokenUtil.genAccessToken(user.getUid(), LoginTypeEnum.LDAP);
         return RespVo.success(jwtToken);
     }
 
