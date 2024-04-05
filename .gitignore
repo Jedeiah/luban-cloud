@@ -38,15 +38,5 @@ build/
 /doc/**/*.jar
 
 /doc/redis/data/dump.rdb
-/doc/openldap/ldap/data.mdb
-/doc/openldap/ldap/lock.mdb
-/doc/openldap/slapd.d/cn=config/cn=schema/cn={0}core.ldif
-/doc/openldap/slapd.d/cn=config/cn=schema/cn={1}cosine.ldif
-/doc/openldap/slapd.d/cn=config/cn=schema/cn={2}nis.ldif
-/doc/openldap/slapd.d/cn=config/cn=schema/cn={3}inetorgperson.ldif
-/doc/openldap/slapd.d/cn=config/cn=module{0}.ldif
-/doc/openldap/slapd.d/cn=config/cn=schema.ldif
-/doc/openldap/slapd.d/cn=config/olcDatabase={0}config.ldif
-/doc/openldap/slapd.d/cn=config/olcDatabase={1}mdb.ldif
-/doc/openldap/slapd.d/cn=config/olcDatabase={-1}frontend.ldif
-/doc/openldap/slapd.d/cn=config.ldif
+/doc/openldap/ldap/
+/doc/openldap/slapd.d/
