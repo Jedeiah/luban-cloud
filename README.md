@@ -55,13 +55,13 @@
 2. 安装maven
 3. 克隆项目仓库：`git clone https://github.com/Jedeiah/luban-cloud.git`
 4. 进入项目目录：`cd luban-cloud`
-5. 修改项目相关ip：项目全局替换 192.168.0.151 为 your_ip ！！！
+5. **修改项目相关ip**：项目全局替换 192.168.0.151 为 your_ip ！！！
 6. install项目：`mvn clean install -f ./pom.xml`
 7. 进入项目部署目录：`cd ./doc`
 8. 若要远程部署，则将当前目录下所有文件cp至服务器
 9. 一键部署启动：`docker-compose -f ./docker-compose.yml up -d --build`
-10. 登陆个人github，`https://github.com/settings/developers` 新建修改 Oauth Apps 对应配置
-11.  登陆Nacos Web，修改uaa服务的配置文件中github oauth相关信息
+10. **修改github授权部分**：登陆个人github，`https://github.com/settings/developers` 新建\修改 Oauth Apps 的对应配置（Client ID、Client secrets、Homepage URL（http://your_ip:8090）、Authorization callback URL（http://your_ip:8090/githubloding.html））
+11.  **登陆Nacos Web**，`http://your_ip:8848/nacos/index.html` 账号密码：nacos:nacosjedeiah, 配置管理->配置列表->dev（命名空间）->修改uaa-dev.yml服务的配置文件中github oauth相关信息（github.clientId、github.clientSecret、github.redirectUrl(只修改ip部分)）
 
 ## 效果
 http://your_ip:8090/login.html
